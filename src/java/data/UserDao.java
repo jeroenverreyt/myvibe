@@ -69,9 +69,24 @@ public class UserDao {
         }
     }
 
-    public static boolean userExists(String email, String pass) {
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
+    public boolean userExists(String email, String pass) throws SQLException  {
+        String query =  "SELECT UserFirstName, UserCredits" +
+                        "FROM user" + 
+                        "WHERE UserEmail = ?";
+        boolean exists = true;
+        try (
+        Connection con = getConnection();
+        PreparedStatement stmt = con.prepareStatement(query)
+        ){
+            stmt.executeQuery(query);
+        }catch(SQLException e){
+            exists = false;
+        }finally{
+            return exists;
+        }
+   }
+    
+        
 
     private Connection getConnection() throws SQLException {
         return DriverManager.getConnection(url, user, password);

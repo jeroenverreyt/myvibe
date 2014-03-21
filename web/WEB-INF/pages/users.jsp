@@ -31,7 +31,7 @@
 		<div class="row">
 			<div class="span6">
 				<h2>Ik heb al een account</h2>
-				<form class="form-horizontal" action="LogIn" method="get">
+				<form class="form-horizontal" action="LogIn" method="post">
 					<input type="text" id="inputEmail" class="input-xlarge" placeholder="Jouw e-mailadres" name="email">
 					
 					<input type="password" id="inputPassword" class="input-xlarge" placeholder="Wachtwoord" name="password">
