@@ -7,6 +7,7 @@ package business;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +17,12 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Jeroen
  */
-@WebServlet(name = "LogIn", urlPatterns = {"/LogIn"})
+@WebServlet(value = "/OverzichtUserMVC", initParams = {
+      @WebInitParam(name = "driver", value = "com.mysql.jdbc.Driver"),
+      @WebInitParam(name = "url", value = "jdbc:mysql://db4free.net/myvibe10"),
+      @WebInitParam(name = "user", value = "keris"),
+      @WebInitParam(name = "password", value = "kerisve"),
+      @WebInitParam(name = "page", value = "/WEB-INF/pages/home.jsp"), })
 public class LogIn extends HttpServlet {
 
     /**
