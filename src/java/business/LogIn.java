@@ -8,12 +8,14 @@ import data.UserBean;
 import data.UserDao;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -52,12 +54,21 @@ public class LogIn extends HttpServlet {
         String url = "";
         
         if(UserDao.userExists(user.getEmail(),user.getPass())){
-            
+            url="/home.jsp";
         }
         else{
-            
+            url="users.jsp";
+            message="Deze gebruiker bestaat niet.";
         }
         
+        //store user and message in session
+        HttpSession session = request.getSession();
+        session.setAttribute("user", user);
+        request.setAttribute("message", message);
+        
+        //forward the request and response to the view
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
+        dispatcher.forward(request, response);        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
