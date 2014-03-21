@@ -69,6 +69,10 @@ public class UserDao {
         }
     }
 
+    public static boolean userExists(String email, String pass) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
     private Connection getConnection() throws SQLException {
         return DriverManager.getConnection(url, user, password);
     }

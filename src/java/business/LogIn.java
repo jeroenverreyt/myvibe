@@ -4,6 +4,8 @@
  */
 package business;
 
+import data.UserBean;
+import data.UserDao;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -17,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Jeroen
  */
-@WebServlet(value = "/OverzichtUserMVC", initParams = {
+@WebServlet(value = "/LogIn", initParams = {
       @WebInitParam(name = "driver", value = "com.mysql.jdbc.Driver"),
       @WebInitParam(name = "url", value = "jdbc:mysql://db4free.net/myvibe10"),
       @WebInitParam(name = "user", value = "keris"),
@@ -37,21 +39,25 @@ public class LogIn extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        try {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet LogIn</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet LogIn at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        } finally {            
-            out.close();
+        //get parameters
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+        
+        //create user object
+        UserBean user = new UserBean();
+        user.setEmail(email);
+        user.setPass(password);
+        
+        String message= "";
+        String url = "";
+        
+        if(UserDao.userExists(user.getEmail(),user.getPass())){
+            
         }
+        else{
+            
+        }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
