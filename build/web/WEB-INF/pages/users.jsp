@@ -31,10 +31,10 @@
 		<div class="row">
 			<div class="span6">
 				<h2>Ik heb al een account</h2>
-				<form class="form-horizontal" action="home.html">
-					<input type="text" id="inputEmail" class="input-xlarge" placeholder="Jouw e-mailadres">
+				<form class="form-horizontal" action="LogIn" method="get">
+					<input type="text" id="inputEmail" class="input-xlarge" placeholder="Jouw e-mailadres" name="email">
 					
-					<input type="password" id="inputPassword" class="input-xlarge" placeholder="Wachtwoord">
+					<input type="password" id="inputPassword" class="input-xlarge" placeholder="Wachtwoord" name="password">
 					
 					<div>
 					<button type="submit" class="btn btn-primary">Log in</button>
