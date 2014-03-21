@@ -1,4 +1,6 @@
-package ex;
+package data;
+
+
 
 import java.io.Serializable;
 
