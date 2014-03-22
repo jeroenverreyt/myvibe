@@ -87,9 +87,11 @@ public class LogIn extends HttpServlet {
 
                 HttpSession session = request.getSession(true);
                 session.setAttribute("currentSessionUser", user);
-                response.sendRedirect("home.jsp"); //logged-in page      		
+                RequestDispatcher disp = request.getRequestDispatcher(page);
+                disp.forward(request, response);
             } else {
-                response.sendRedirect("users.jsp"); //error page 
+                RequestDispatcher disp = request.getRequestDispatcher(errorpage);
+                disp.forward(request, response);
             }
         } catch (Throwable theException) {
             System.out.println(theException);

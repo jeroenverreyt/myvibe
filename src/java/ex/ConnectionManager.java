@@ -16,7 +16,7 @@ public class ConnectionManager {
     public static Connection getConnection() {
 
         try {
-            String url = "jdbc:odbc:" + "//localhost:8080/MyVibe";
+            String url = "jdbc:mysql://db4free.net/myvibe10";
             // assuming "DataSource" is your DataSource name
 
             Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");

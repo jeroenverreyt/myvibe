@@ -107,8 +107,8 @@ public class UserDao {
                 bean.setValid(false);
             } //if user exists set the isValid variable to true
             else if (more) {
-                String firstName = rs.getString("FirstName");
-                String lastName = rs.getString("LastName");
+                String firstName = rs.getString("UserFirstName");
+                String lastName = rs.getString("UserName");
 
                 System.out.println("Welcome " + firstName);
                 bean.setFirstName(firstName);
