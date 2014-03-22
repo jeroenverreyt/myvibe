@@ -1,12 +1,10 @@
-package data;
-
-
+package ex;
 
 import java.io.Serializable;
 
-public class UserBean implements Serializable{
+public class UserBean implements Serializable {
 
- private String login;
+    private String login;
     private String pass;
     private String name;
     private String firstName;
@@ -14,6 +12,7 @@ public class UserBean implements Serializable{
     private String email;
     private int phone;
     private int credits;
+    private boolean valid;
 
     public UserBean() {
     }
@@ -23,14 +22,12 @@ public class UserBean implements Serializable{
         this.firstName = firstName;
     }
 
-    
-    
     public UserBean(String login, String pass, String name, String firstName, String birthDate, String email, int phone, int credits) {
         this.login = login;
         this.pass = pass;
         this.name = name;
         this.firstName = firstName;
-              this.birthDate = birthDate;
+        this.birthDate = birthDate;
         this.email = email;
         this.phone = phone;
         this.credits = credits;
@@ -68,7 +65,6 @@ public class UserBean implements Serializable{
         this.firstName = firstName;
     }
 
-  
     public String getBirthDate() {
         return birthDate;
     }
@@ -100,6 +96,12 @@ public class UserBean implements Serializable{
     public void setCredits(int credits) {
         this.credits = credits;
     }
-        
-    
+
+    public boolean isValid() {
+        return valid;
+    }
+
+    public void setValid(boolean newValid) {
+        valid = newValid;
+    }
 }

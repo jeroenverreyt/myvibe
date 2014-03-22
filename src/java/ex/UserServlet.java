@@ -1,9 +1,9 @@
-package business;
+package ex;
 
 
 
-import data.UserBean;
-import data.UserDao;
+import ex.UserBean;
+import ex.UserDao;
 import java.io.*;
 import java.sql.*;
 import java.util.*;
