@@ -21,7 +21,7 @@
 				<h1>MyVibe</h1>
 			</div>
 			<div class="span4">
-				<h4>Welkom 'Klant'</h4>
+				<h4>Welkom ${currentSessionUser.firstName}</h4>
 				<a href="inlog.html" target="_parent"><button class="btn btn-danger">Log uit</button></a>
 			</div>
 		</div>
