@@ -67,6 +67,7 @@ public class UserServlet extends HttpServlet {
          String name = request.getParameter("inputName");
          String firstname = request.getParameter("inputFirstName");
          String email = request.getParameter("inputEmail");
+         String confEmail = request.getParameter("inputConfEmail");
          int phone = Integer.parseInt(request.getParameter("inputPhonenumber"));
          String day = request.getParameter("day");
          String month = request.getParameter("month");
