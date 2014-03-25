@@ -46,17 +46,17 @@
 				<h2>Ik heb nog geen account</h2>
 				<form class="form-horizontal" method="post">
 				
-					<input type="text" id="inputVoornaam" name ="inputFirstName"class="input-small" placeholder="Voornaam">
+					<input type="text" id="inputVoornaam" name ="inputFirstName"class="input-small" placeholder="Voornaam" required>
 					
-					<input type="text" id="inputNaam" name="inputName" class="input-small" placeholder="Naam">
+					<input type="text" id="inputNaam" name="inputName" class="input-small" placeholder="Naam" required>
 					
-					<input type="text" id="inputEmail" name="inputEmail" class="input-xlarge" placeholder="Jouw e-mailadres">
+					<input type="email" id="inputEmail" name="inputEmail" class="input-xlarge" placeholder="Jouw e-mailadres" required >
 					
-					<input type="text" id="inputConfEmail" name="inputConfEmail" class="input-xlarge" placeholder="Bevestig e-mailadres">
+					<input type="email" id="inputConfEmail" name="inputConfEmail" class="input-xlarge" placeholder="Bevestig e-mailadres" required>
 					
-					<input type="text" id="inputUsername" name="inputUsername" class="input-xlarge" placeholder="Kies een gebruikersnaam">
+					<input type="text" id="inputUsername" name="inputUsername" class="input-xlarge" placeholder="Kies een gebruikersnaam" required>
 					
-					<input type="password" id="inputPassword" name="inputPassword" class="input-xlarge" placeholder="Wachtwoord">
+					<input type="password" id="inputPassword" name="inputPassword" class="input-xlarge" placeholder="Wachtwoord" required>
 					
 					
 					<div class="input-xlarge">
@@ -144,13 +144,13 @@
 						</select>
 					</div>
 					
-					<input type="text" id="inputPhonenumber" name="inputPhonenumber" class="input-xlarge" placeholder="Telefoonnummer">
+					<input type="text" id="inputPhonenumber" name="inputPhonenumber" class="input-xlarge" placeholder="Telefoonnummer" required>
 					
 					<label class="checkbox input-xlarge">
 						<input type="checkbox" id="CheckboxStageName" onclick="disableFunction()"> Ik ben een artiest
 					</label>
 					
-					<input type="text" id="inputStagename" name="inputStagename" class="input-xlarge" placeholder="Artiestennaam" disabled>
+					<input type="text" id="inputStagename" name="inputStagename" class="input-xlarge" placeholder="Artiestennaam" disabled required>
 					
 					<div>
 						<button class="btn btn-primary">Registreer</button>

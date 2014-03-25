@@ -60,7 +60,8 @@ public class UserServlet extends HttpServlet {
 
    protected void doPost(HttpServletRequest request,
          HttpServletResponse response) throws ServletException, IOException {
-      try {
+      
+       try {
           
          String login = request.getParameter("inputUsername");
          String pass = request.getParameter("inputPassword");
