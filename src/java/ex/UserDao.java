@@ -54,7 +54,22 @@ public class UserDao {
         }
 
     }
+  public boolean userExists(String email) throws SQLException {
+        String query = "select * from user where UserEmail='" + email + "';";
 
+        try (Connection con = getConnection(); // Java 7 !!!
+                Statement stmt = con.createStatement()) {
+            List<UserBean> users = new ArrayList<UserBean>();
+            ResultSet rs = stmt.executeQuery(query);
+
+            if (!rs.next()) {
+                System.out.println("no data");
+                return false;
+            }
+
+            return true;
+        }
+    }
     public void addUser(UserBean user) throws SQLException {
         try (Connection con = getConnection();
                 PreparedStatement stmt = con.prepareStatement(UPDATE_QUERY)) {

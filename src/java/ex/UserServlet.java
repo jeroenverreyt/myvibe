@@ -63,6 +63,7 @@ public class UserServlet extends HttpServlet {
       
        try {
           
+         boolean userExists;
          String login = request.getParameter("inputUsername");
          String pass = request.getParameter("inputPassword");
          String name = request.getParameter("inputName");
@@ -74,9 +75,15 @@ public class UserServlet extends HttpServlet {
          String month = request.getParameter("month");
          String year = request.getParameter("year");
          String birthDate = year + "-" + month + "-" + day;
-      
-         UserBean user = new UserBean(login,pass, name, firstname, birthDate, email,phone ,0);
+            userExists= dao.userExists(email);
+        if (!userExists){
+              UserBean user = new UserBean(login,pass, name, firstname, birthDate, email,phone ,0);
          dao.addUser(user);
+           
+        }else{
+            System.out.println("user allready exists");
+        }
+       
          doGet(request, response);
       } catch (SQLException ex) {
          throw new ServletException(ex);
