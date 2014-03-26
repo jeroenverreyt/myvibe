@@ -3,6 +3,7 @@ package ex;
 import ex.UserBean;
 import ex.UserDao;
 import java.io.*;
+import java.security.MessageDigest;
 import java.sql.*;
 import java.util.*;
 import java.util.Date;
@@ -78,12 +79,39 @@ public class UserServlet extends HttpServlet {
             String birthDate = year + "-" + month + "-" + day;
             userExists = dao.userExists(email);
 
+             String passwordToHash = pass;
+            String generatedPassword = null;
+            
+           try {
+               //create messageDigest instance for MD5
+               MessageDigest md = MessageDigest.getInstance("MD5");
+               //Add password bytes to digest
+                md.update(passwordToHash.getBytes());
+                //Get the hash's bytes
+                byte[] bytes = md.digest();
+                
+                //This bytes[] has bytes in decimal format;
+                //Convert it to hexadecimal format
+                StringBuilder sb = new StringBuilder();
+                for(int i=0; i< bytes.length ;i++)
+                {
+                    sb.append(Integer.toString((bytes[
+                            i] & 0xff) + 0x100, 16).substring(1));
+                }
+                //Get complete hashed password in hex format
+                generatedPassword = sb.toString();
+           }catch (Exception e){
+               e.printStackTrace();
+           }
+           
+            
+            
             if (!email.equals(confEmail)) {
                 System.out.println("Email addresses are not equal");
                  messages.put("email", "Beide email adressen moeten gelijk zijn!");
             } else {
                 if (!userExists) {
-                    UserBean user = new UserBean(login, pass, name, firstname, birthDate, email, phone, 0);
+                    UserBean user = new UserBean(login, generatedPassword, name, firstname, birthDate, email, phone, 0);
                     dao.addUser(user);
                      messages.put("register", "U bent met succes geregistreerd!");
                 } else {
