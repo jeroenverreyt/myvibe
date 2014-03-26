@@ -8,7 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
-    <link href="css/inlog.css" rel="stylesheet" media="screen">
+     <link href="css/inlog.css" rel="stylesheet" media="screen">
+    
 	<script>
 		function disableFunction()
 		{
@@ -21,6 +22,7 @@
 	</script>
   </head>
   <body>
+         
 	<div class="container">
 		<div class="row">
 			<div class="span8">
@@ -44,10 +46,11 @@
 				</form>
 			</div>
 			<div class="span6">
-				<h2>Ik heb nog geen account</h2>
-                                <p class="bg-danger">${messages.email}</p>            
-                                 <p class="bg-danger">${messages.user}</p> 
-                                 <p class="bg-danger">${messages.register}</p> 
+				<h2>Ik heb nog geen account</h2> 
+                                
+                                <p class="alert alert-error" ${messages.email == null ? "style='display:none;'" : ""}  >${messages.email}</p>            
+                                <p class="alert alert-error" ${messages.user == null ? "style='display:none;'" : ""}>${messages.user}</p> 
+                                <p class="alert alert-success" ${messages.register == null ? "style='display:none;'" : ""}>${messages.register}</p> 
                                   
 				<form class="form-horizontal" method="post">
 				
