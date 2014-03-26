@@ -61,7 +61,9 @@ public class UserServlet extends HttpServlet {
             HttpServletResponse response) throws ServletException, IOException {
 
         try {
-
+            Map<String, String> messages = new HashMap<String, String>();
+            
+            
             boolean userExists;
             String login = request.getParameter("inputUsername");
             String pass = request.getParameter("inputPassword");
@@ -78,16 +80,22 @@ public class UserServlet extends HttpServlet {
 
             if (!email.equals(confEmail)) {
                 System.out.println("Email addresses are not equal");
+                 messages.put("email", "Beide email adressen moeten gelijk zijn!");
             } else {
                 if (!userExists) {
                     UserBean user = new UserBean(login, pass, name, firstname, birthDate, email, phone, 0);
                     dao.addUser(user);
-
+                     messages.put("register", "U bent met succes geregistreerd!");
                 } else {
                     System.out.println("user allready exists");
+                     messages.put("user", "Er bestaat al een user met dit email adres");
                 }
             }
-
+request.setAttribute("messages", messages);
+ RequestDispatcher disp = request.getRequestDispatcher(page);
+   if (disp != null) {
+                disp.forward(request, response);
+            }
             doGet(request, response);
         } catch (SQLException ex) {
             throw new ServletException(ex);

@@ -28,6 +28,7 @@
 			</div>
 			<div class="span4"></div>
 		</div>
+             
 		<div class="row">
 			<div class="span6">
 				<h2>Ik heb al een account</h2>
@@ -44,6 +45,10 @@
 			</div>
 			<div class="span6">
 				<h2>Ik heb nog geen account</h2>
+                                <p class="bg-danger">${messages.email}</p>            
+                                 <p class="bg-danger">${messages.user}</p> 
+                                 <p class="bg-danger">${messages.register}</p> 
+                                  
 				<form class="form-horizontal" method="post">
 				
 					<input type="text" id="inputVoornaam" name ="inputFirstName"class="input-small" placeholder="Voornaam" required>
