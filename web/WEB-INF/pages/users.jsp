@@ -61,8 +61,8 @@
 					
 					<div class="input-xlarge">
 						<label>Geboortedatum</label>
-						<select name="day" id="formday">
-							<option value="dag" selected>Dag</option>
+						<select name="day" id="formday" required>
+							<option value="" selected >Dag</option>
 							<option value="1">1</option>
 							<option value="2">2</option>
 							<option value="3">3</option>
@@ -96,8 +96,8 @@
 							<option value="31">31</option>
 						</select>
 						
-						<select name="month" id="formmonth">
-							<option value="maand" selected>Maand</option>
+						<select name="month" id="formmonth" required>
+							<option value="" selected>Maand</option>
 							<option value="1">Januari</option>
 							<option value="2">Februari</option>
 							<option value="3">Maart</option>
@@ -112,8 +112,8 @@
 							<option value="12">December</option>
 						</select>
 						
-						<select name="year" id="formyear">
-							<option value="jaar" selected>Jaar</option>
+						<select name="year" id="formyear" required>
+							<option value="" selected>Jaar</option>
 							<option value="2014">2014</option>
 							<option value="2013">2013</option>
 							<option value="2012">2012</option>
