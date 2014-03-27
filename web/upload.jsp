@@ -45,7 +45,7 @@
                 </div>
             </div>
 
-            <form method="post" action="uploadServlet" class="form-horizontal">
+            <form method="post" action="uploadServlet" class="form-horizontal" enctype="multipart/form-data">
                 <input type="text" class="input-xlarge" placeholder="Trackname" name="trackName"/>
 
                 <input type="text" class="input-xlarge" placeholder="Price" name="trackPrice"/>

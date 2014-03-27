@@ -4,8 +4,10 @@
  */
 package ex;
 
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -22,6 +24,7 @@ public class TrackDao {
     private String user;
     private String password;
     private static final String GET_QUERY = "select TrackName, TrackReleaseDate, TrackPrice, Artist_ArtistID from track";
+    private static final String ADD_QUERY = "INSERT INTO track (TrackName, TrackPrice, TrackAudioFile,Artist_ArtistID) values (?, ?, ?, 1)";
     static Connection currentCon = null;
     static ResultSet rs = null;
 
@@ -54,6 +57,28 @@ public class TrackDao {
                 tracks.add(track);
             }
             return tracks;
+        }
+    }
+
+    public Boolean addTrack(String trackName, String trackPrice, InputStream inputStream) throws SQLException {
+        try (Connection con = getConnection(); // Java 7 !!!
+                ) {
+            Boolean success;
+            try {
+                PreparedStatement statement = con.prepareStatement(ADD_QUERY);
+                statement.setString(1, trackName);
+                statement.setString(2, trackPrice);
+
+                if (inputStream != null) {
+                    // fetches input stream of the upload file for the blob column
+                    statement.setBlob(3, inputStream);
+                }
+                statement.executeUpdate();
+                success = true;
+            } catch (SQLException ex) {
+                success = false;
+            }
+            return success;
         }
     }
 
