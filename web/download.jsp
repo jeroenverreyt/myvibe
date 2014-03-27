@@ -52,16 +52,12 @@
                     <th>Release date</th>
                     <th>Price</th>
                 </tr>
-                <c:forEach items="${users}" var="user">
+                <c:forEach items="${tracks}" var="track">
                     <tr>
-                        <td>${user.firstName}</td>
-                        <td>${user.name}</td>
-                        <td>${user.login}</td>
-                        <td>${user.pass}</td>
-                        <td>${user.email}</td>  
-                        <td>${user.birthDate}</td>
-                        <td>${user.phone}</td>
-                        <td>${user.credits}</td>
+                        <td>${track.trackname}</td>
+                        <td>${track.trackreleasedate}</td>
+                        <td>${track.trackprice}</td>
+                        <td>${track.artist_artistid}</td>
                     </tr>
                 </c:forEach>
             </table>

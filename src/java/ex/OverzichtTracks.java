@@ -6,7 +6,11 @@ package ex;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,8 +20,37 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Jeroen
  */
-@WebServlet(name = "OverzichtTracks", urlPatterns = {"/OverzichtTracks"})
+@WebServlet(value = "/OverzichtTracks", initParams = {
+    @WebInitParam(name = "driver", value = "com.mysql.jdbc.Driver"),
+    @WebInitParam(name = "url", value = "jdbc:mysql://db4free.net/myvibe10"),
+    @WebInitParam(name = "user", value = "keris"),
+    @WebInitParam(name = "password", value = "kerisve"),
+    @WebInitParam(name = "page", value = "/download.jsp"),})
 public class OverzichtTracks extends HttpServlet {
+
+    private TrackDao dao;
+    private String page;
+
+    public void init() throws ServletException {
+        try {
+            String driver = getInitParameter("driver");
+            String url = getInitParameter("url");
+            String user = getInitParameter("user");
+            String password = getInitParameter("password");
+            page = getInitParameter("page");
+            if (driver == null || url == null || user == null || password == null
+                    || page == null) {
+                throw new ServletException("Init parameter missing");
+            }
+            dao = new TrackDao();
+            dao.setDriver(driver);
+            dao.setUser(user);
+            dao.setPassword(password);
+            dao.setUrl(url);
+        } catch (ClassNotFoundException ex) {
+            throw new ServletException("Unable to load driver", ex);
+        }
+    }
 
     /**
      * Processes requests for both HTTP
@@ -32,20 +65,16 @@ public class OverzichtTracks extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        try {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet OverzichtTracks</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet OverzichtTracks at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        } finally {            
-            out.close();
-        }
+         try {
+         List<TrackBean> tracks = dao.getTracks(); 
+         request.setAttribute("tracks", tracks);
+         RequestDispatcher disp = request.getRequestDispatcher(page);
+         if (disp != null) {
+            disp.forward(request, response);
+         }
+      } catch (SQLException e) {
+         throw new ServletException(e);
+      }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
