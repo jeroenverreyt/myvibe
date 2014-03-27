@@ -22,7 +22,7 @@
 			</div>
 			<div class="span4">
 				<h4>Welkom ${currentSessionUser.firstName}</h4>
-				<a href="inlog.html" target="_parent"><button class="btn btn-danger">Log uit</button></a><a href="inlog.html" target="_parent"><button class="btn">Profiel</button></a>
+				<a href="inlog.html" target="_parent"><button class="btn btn-danger">Log uit</button></a><a href="profile.jsp" target="_parent"><button class="btn">Profiel</button></a>
 			</div>
 		</div>
 		
