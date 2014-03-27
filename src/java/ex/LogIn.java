@@ -32,8 +32,8 @@ import javax.servlet.http.HttpSession;
     @WebInitParam(name = "url", value = "jdbc:mysql://db4free.net/myvibe10"),
     @WebInitParam(name = "user", value = "keris"),
     @WebInitParam(name = "password", value = "kerisve"),
-    @WebInitParam(name = "page", value = "/WEB-INF/pages/home.jsp"),
-    @WebInitParam(name = "errorpage", value = "/WEB-INF/pages/users.jsp"),})
+    @WebInitParam(name = "page", value = "/home.jsp"),
+    @WebInitParam(name = "errorpage", value = "/index.jsp"),})
 public class LogIn extends HttpServlet {
 
     private UserDao dao;
@@ -87,6 +87,7 @@ public class LogIn extends HttpServlet {
 
                 HttpSession session = request.getSession(true);
                 session.setAttribute("currentSessionUser", user);
+                session.setAttribute("loggedIn", true);
                 RequestDispatcher disp = request.getRequestDispatcher(page);
                 disp.forward(request, response);
             } else {
