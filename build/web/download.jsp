@@ -36,7 +36,7 @@
                         <li><a href="home.jsp">Home</a></li>
                         <li><a href="playlist.html">Mijn afspeellijst</a></li>
                         <li class="active"><a href="#">Koop een nummer</a></li>
-                        <li><a href="upload.html">Upload een nummer</a></li>
+                        <li><a href="upload.jsp">Upload een nummer</a></li>
                     </ul>
                 </nav>
                 <div class="input-append">
@@ -58,6 +58,7 @@
                         <td>${track.trackreleasedate}</td>
                         <td>${track.trackprice}</td>
                         <td>${track.artist_artistid}</td>
+                        <td><a class="btn btn-mini" href="#"><i class="icon-play"></i>Download</a></td>
                     </tr>
                 </c:forEach>
             </table>

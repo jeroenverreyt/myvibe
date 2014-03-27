@@ -35,8 +35,8 @@
                     <ul class="nav navbar-nav">
                         <li><a href="home.jsp">Home</a></li>
                         <li><a href="playlist.html">Mijn afspeellijst</a></li>
-                        <li class="active"><a href="#">Koop een nummer</a></li>
-                        <li><a href="upload.jsp">Upload een nummer</a></li>
+                        <li><a href="OverzichtTracks">Koop een nummer</a></li>
+                        <li class="active"><a href="#">Upload een nummer</a></li>
                     </ul>
                 </nav>
                 <div class="input-append">
@@ -45,23 +45,15 @@
                 </div>
             </div>
 
-            <table class="table table-condensed">
-                <tr>
-                    <th>Track Name</th>
-                    <th>Artist</th>
-                    <th>Release date</th>
-                    <th>Price</th>
-                </tr>
-                <c:forEach items="${tracks}" var="track">
-                    <tr>
-                        <td>${track.trackname}</td>
-                        <td>${track.trackreleasedate}</td>
-                        <td>${track.trackprice}</td>
-                        <td>${track.artist_artistid}</td>
-                        <td><a class="btn btn-mini" href="#"><i class="icon-play"></i>Download</a></td>
-                    </tr>
-                </c:forEach>
-            </table>
+            <form method="post" action="uploadServlet" class="form-horizontal">
+                <input type="text" class="input-xlarge" placeholder="Trackname" name="trackName"/>
+
+                <input type="text" class="input-xlarge" placeholder="Price" name="trackPrice"/>
+                
+                <input type="file" class="input-xlarge" name="trackAudioFile"/>
+                
+                <input type="submit" value="Upload">
+            </form>
 
         </div>
     </body>
