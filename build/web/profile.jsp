@@ -36,7 +36,7 @@
                 <ul class="nav navbar-nav">
                     <li><a href="home.jsp">Home</a></li>
                     <li><a href="playlist.html">Mijn afspeellijst</a></li>
-                    <li><a href="download.html">Koop een nummer</a></li>
+                    <li><a href="OverzichtUserMVC">Koop een nummer</a></li>
                     <li><a href="upload.html">Upload een nummer</a></li>
                 </ul>
             </nav>
