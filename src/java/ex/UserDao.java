@@ -54,7 +54,8 @@ public class UserDao {
         }
 
     }
-  public boolean userExists(String email) throws SQLException {
+
+    public boolean userExists(String email) throws SQLException {
         String query = "select * from user where UserEmail='" + email + "';";
 
         try (Connection con = getConnection(); // Java 7 !!!
@@ -70,6 +71,7 @@ public class UserDao {
             return true;
         }
     }
+
     public void addUser(UserBean user) throws SQLException {
         try (Connection con = getConnection();
                 PreparedStatement stmt = con.prepareStatement(UPDATE_QUERY)) {
@@ -122,12 +124,24 @@ public class UserDao {
                 bean.setValid(false);
             } //if user exists set the isValid variable to true
             else if (more) {
-                String firstName = rs.getString("UserFirstName");
-                String lastName = rs.getString("UserName");
+                String Userlogin = rs.getString("UserLogin");
+                String Userpass = rs.getString("UserPass");
+                String UserlastName = rs.getString("UserName");
+                String UserfirstName = rs.getString("UserFirstName");
+                String UserbirthDate = rs.getString("UserBirthDate");
+                String Useremail = rs.getString("UserEmail");
+                int Userphone = rs.getInt("UserPhone");
+                int Usercredits = rs.getInt("UserCredits");
 
-                System.out.println("Welcome " + firstName);
-                bean.setFirstName(firstName);
-                bean.setName(lastName);
+                System.out.println("Welcome " + UserfirstName);
+                bean.setLogin(Userlogin);
+                bean.setPass(Userpass);
+                bean.setName(UserlastName);
+                bean.setFirstName(UserfirstName);
+                bean.setBirthDate(UserbirthDate);
+                bean.setEmail(Useremail);
+                bean.setPhone(Userphone);
+                bean.setCredits(Usercredits);
                 bean.setValid(true);
             }
         } catch (Exception ex) {
