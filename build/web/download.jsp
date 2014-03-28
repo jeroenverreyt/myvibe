@@ -53,13 +53,15 @@
                     <th>Price</th>
                 </tr>
                 <c:forEach items="${tracks}" var="track">
-                    <tr>
-                        <td>${track.trackname}</td>
-                        <td>${track.trackreleasedate}</td>
-                        <td>${track.trackprice}</td>
-                        <td>${track.artist_artistid}</td>
-                        <td><a class="btn btn-mini" href="#"><i class="icon-play"></i>Download</a></td>
-                    </tr>
+                    <form action="downloadServlet" method="post">
+                        <tr>
+                            <td>${track.trackname}</td>
+                            <td>${track.trackreleasedate}</td>
+                            <td>${track.trackprice}</td>
+                            <td>${track.artist_artistid}</td>
+                            <td><button class="btn btn-mini" type="submit"><i class="icon-play"></i>Download</a></td>
+                        </tr>
+                    </form>
                 </c:forEach>
             </table>
 
