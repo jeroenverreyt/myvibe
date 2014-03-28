@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Jeroen
  */
-@WebServlet(name = "downloadServlet", initParams = {
+@WebServlet(name = "/downloadServlet", initParams = {
     @WebInitParam(name = "driver", value = "com.mysql.jdbc.Driver"),
     @WebInitParam(name = "url", value = "jdbc:mysql://db4free.net/myvibe10"),
     @WebInitParam(name = "user", value = "keris"),
@@ -25,33 +25,35 @@ import javax.servlet.http.HttpServletResponse;
     @WebInitParam(name = "page", value = "/download.jsp"),})
 public class TrackDownloadServlet extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP
-     * <code>GET</code> and
-     * <code>POST</code> methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    private TrackDao dao;
+    private String page;
+
+    public void init() throws ServletException {
+        try {
+            String driver = getInitParameter("driver");
+            String url = getInitParameter("url");
+            String user = getInitParameter("user");
+            String password = getInitParameter("password");
+            page = getInitParameter("page");
+            if (driver == null || url == null || user == null || password == null
+                    || page == null) {
+                throw new ServletException("Init parameter missing");
+            }
+            dao = new TrackDao();
+            dao.setDriver(driver);
+            dao.setUser(user);
+            dao.setPassword(password);
+            dao.setUrl(url);
+        } catch (ClassNotFoundException ex) {
+            throw new ServletException("Unable to load driver", ex);
+        }
+    }
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        try {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet TrackDownloadServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet TrackDownloadServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        } finally {            
-            out.close();
-        }
+        String trackName = request.getParameter("trackname");
+        System.out.println(trackName);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -59,7 +59,7 @@
                             <td>${track.trackreleasedate}</td>
                             <td>${track.trackprice}</td>
                             <td>${track.artist_artistid}</td>
-                            <td><button class="btn btn-mini" type="submit"><i class="icon-play"></i>Download</a></td>
+                            <td><input type="submit" value="Koop"></td>
                         </tr>
                     </form>
                 </c:forEach>
