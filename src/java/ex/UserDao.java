@@ -15,6 +15,7 @@ public class UserDao {
     private String password;
     private static final String GET_QUERY = "select UserLogin, UserPass, UserName, UserFirstName, UserBirthdate, UserEmail, UserPhone, UserCredits from user";
     private static final String UPDATE_QUERY = "insert into user (UserLogin, UserPass, UserName, UserFirstName, UserBirthdate, UserEmail, UserPhone, UserCredits) values (?,?,?,?,?,?,?,?)";
+    
     static Connection currentCon = null;
     static ResultSet rs = null;
 
@@ -86,7 +87,17 @@ public class UserDao {
             stmt.executeUpdate();
         }
     }
-
+    
+    public void changePhone(String newPhone, String email) throws SQLException{
+        
+        String change_phone_query = "UPDATE user SET UserPhone= " + newPhone + " WHERE UserEmail='" + email + "';";
+        System.out.println(change_phone_query);
+        try (Connection con = getConnection();
+                PreparedStatement stmt = con.prepareStatement(change_phone_query)) {
+                  
+                  stmt.executeUpdate();
+        }
+    }
     private Connection getConnection() throws SQLException {
         return DriverManager.getConnection(url, user, password);
     }

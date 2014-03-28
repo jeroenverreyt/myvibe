@@ -46,12 +46,12 @@
             </div>
         </div>
 
-        <form action="#" method="post" class="form-horizontal"> 
+        <form action="ChangeProfile" method="post" class="form-horizontal"> 
             <h6> Username: </h6>
             <p> ${currentSessionUser.login} </p>
 
             <h6> Password: </h6>
-            <input type="text"> </input>
+            <input type="text" id ="newPassword" name="newPassword"> </input>
 
             <h6> Naam: </h6>
             <p> ${currentSessionUser.name} </p>
@@ -66,7 +66,7 @@
             <p> ${currentSessionUser.email} </p>
 
             <h6> Phone: </h6>
-            <input type="text"> </input>
+            <input type="text" id="newPhone" name="newPhone"> </input>
 
             <h6> Credits </h6>
             <p> ${currentSessionUser.credits} </p>  
