@@ -66,11 +66,13 @@ public class ChangeProfile extends HttpServlet {
         try {
             if(!newPassword.equals("")){
                 dao.changePassword(newPassword, email);
+                 feedback.put("wijziging", "Uw wijzigingen zijn opgeslagen!");
             }
             if(!newPhone.equals("")){
                 dao.changePhone(newPhone, email); 
+                 feedback.put("wijziging", "Uw wijzigingen zijn opgeslagen!");
             }
-           feedback.put("wijziging", "Uw wijzigingen zijn opgeslagen!");
+          
         } catch (SQLException ex) {
             Logger.getLogger(ChangeProfile.class.getName()).log(Level.SEVERE, null, ex);
         }
