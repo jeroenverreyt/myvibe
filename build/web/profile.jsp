@@ -45,8 +45,9 @@
                 <button class="btn" type="button">Search</button>
             </div>
         </div>
-
+ <p class="alert alert-success" ${feedback.wijziging == null ? "style='display:none;'" : ""}>${feedback.wijziging}</p> 
         <form action="ChangeProfile" method="post" class="form-horizontal"> 
+            
             <h6> Username: </h6>
             <p> ${currentSessionUser.login} </p>
 

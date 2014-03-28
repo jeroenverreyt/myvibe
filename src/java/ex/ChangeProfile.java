@@ -56,7 +56,7 @@ public class ChangeProfile extends HttpServlet {
             HttpServletResponse response) throws ServletException, IOException {
         
       
-    
+     Map<String, String> feedback = new HashMap<String, String>();
 
         String newPassword = request.getParameter("newPassword");
         String newPhone = request.getParameter("newPhone");
@@ -70,11 +70,11 @@ public class ChangeProfile extends HttpServlet {
             if(!newPhone.equals("")){
                 dao.changePhone(newPhone, email); 
             }
-           
+           feedback.put("wijziging", "Uw wijzigingen zijn opgeslagen!");
         } catch (SQLException ex) {
             Logger.getLogger(ChangeProfile.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+request.setAttribute("feedback", feedback);
        RequestDispatcher disp = request.getRequestDispatcher(page);
                 disp.forward(request, response);
     }
