@@ -161,7 +161,7 @@
 					<input type="text" id="inputStagename" name="inputStagename" class="input-xlarge" placeholder="Artiestennaam" disabled required>
 					
 					<div>
-						<button class="btn btn-primary">Registreer</button>
+						<button type="submit" class="btn btn-primary">Registreer</button>
 					</div>
                                       </form>
 			</div>

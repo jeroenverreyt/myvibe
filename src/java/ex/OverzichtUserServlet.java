@@ -18,7 +18,7 @@ import javax.servlet.http.*;
       @WebInitParam(name = "url", value = "jdbc:mysql://db4free.net/myvibe10"),
       @WebInitParam(name = "user", value = "keris"),
       @WebInitParam(name = "password", value = "kerisve"),
-      @WebInitParam(name = "page", value = "/WEB-INF/pages/overzichtUsers.jsp"), })
+      @WebInitParam(name = "page", value = "/overzichtUsers.jsp"), })
 public class OverzichtUserServlet extends HttpServlet {
    private UserDao dao;
    private String page;

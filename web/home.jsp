@@ -35,8 +35,8 @@
                     <ul class="nav navbar-nav">
                         <li class="active"><a href="#">Home</a></li>
                         <li><a href="playlist.html">Mijn afspeellijst</a></li>
-                        <li><a href="download.html">Koop een nummer</a></li>
-                        <li><a href="upload.html">Upload een nummer</a></li>
+                        <li><a href="OverzichtTracks">Koop een nummer</a></li>
+                        <li><a href="upload.jsp">Upload een nummer</a></li>
                     </ul>
                 </nav>
                 <div class="input-append">
