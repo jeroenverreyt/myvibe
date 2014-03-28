@@ -64,7 +64,13 @@ public class ChangeProfile extends HttpServlet {
          String email =(String) session.getAttribute("emailCurrentuser");
            System.out.println(email);
         try {
-            dao.changePhone(newPhone, email);
+            if(!newPassword.equals("")){
+                dao.changePassword(newPassword, email);
+            }
+            if(!newPhone.equals("")){
+                dao.changePhone(newPhone, email); 
+            }
+           
         } catch (SQLException ex) {
             Logger.getLogger(ChangeProfile.class.getName()).log(Level.SEVERE, null, ex);
         }
