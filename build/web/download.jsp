@@ -54,13 +54,11 @@
                 </tr>
                 <c:forEach items="${tracks}" var="track">
                     <tr>
-                    <form action="trackDownload" method="post">
-                        <td>${track.trackname}"</td>
+                        <td>${track.trackname}</td>
                         <td>${track.trackreleasedate}</td>
                         <td>${track.trackprice}</td>
                         <td>${track.artist_artistid}</td>
-                        <td><input type="submit" value="Koop"></td>
-                    </form>
+                        <td><a href="trackDownload"><button class="btn">Koop</button></a></td>
                     </tr>
                 </c:forEach>
             </table>

@@ -19,7 +19,7 @@ import javax.servlet.jsp.jstl.core.LoopTagStatus;
  *
  * @author Jeroen
  */
-@WebServlet(value = "/trackDownload", initParams = {
+@WebServlet(name = "trackDownload", urlPatterns = {"/trackDownload"}, initParams = {
     @WebInitParam(name = "driver", value = "com.mysql.jdbc.Driver"),
     @WebInitParam(name = "url", value = "jdbc:mysql://db4free.net/myvibe10"),
     @WebInitParam(name = "user", value = "keris"),
@@ -29,8 +29,9 @@ public class TrackDownloadServlet extends HttpServlet {
 
     private TrackDao dao;
     private String page;
-    LoopTagStatus status;
-    private TrackBean track  = (TrackBean) status.getCurrent();
+    private LoopTagStatus status;
+    private Object object = status.getCurrent();
+    private TrackBean track  = (TrackBean) object;
 
     public void init() throws ServletException {
         try {
