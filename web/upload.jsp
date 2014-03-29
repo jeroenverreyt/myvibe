@@ -49,9 +49,9 @@
                 <input type="text" class="input-xlarge" placeholder="Trackname" name="trackName"/>
 
                 <input type="text" class="input-xlarge" placeholder="Price" name="trackPrice"/>
-                
+
                 <input type="file" class="input-xlarge" name="trackAudioFile"/>
-                
+
                 <input type="submit" value="Upload">
             </form>
 
