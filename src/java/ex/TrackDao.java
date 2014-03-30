@@ -24,6 +24,7 @@ public class TrackDao {
     private String user;
     private String password;
     private static final String GET_QUERY = "select TrackName, TrackReleaseDate, TrackPrice, Artist_ArtistID from track";
+    private static final String GETBYID_QUERY = "select TrackName, TrackReleaseDate, TrackPrice, Artist_ArtistID from track where TrackID = ?";
     private static final String ADD_QUERY = "INSERT INTO track (TrackName, TrackPrice, TrackAudioFile,Artist_ArtistID) values (?, ?, ?, 1)";
     static Connection currentCon = null;
     static ResultSet rs = null;
@@ -57,6 +58,16 @@ public class TrackDao {
                 tracks.add(track);
             }
             return tracks;
+        }
+    }
+
+    public TrackBean getTrackByID(String tracknr) throws SQLException {
+        try (Connection con = getConnection(); // Java 7 !!!
+                Statement stmt = con.createStatement()) {
+            PreparedStatement statement = con.prepareStatement(GETBYID_QUERY);
+            statement.setString(1, tracknr);
+            TrackBean track = (TrackBean) statement.executeQuery();
+            return track;
         }
     }
 

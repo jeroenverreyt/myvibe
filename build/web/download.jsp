@@ -47,14 +47,18 @@
 
             <table class="table table-condensed">
                 <tr>
+                    <th></th>
+                    <th></th>
                     <th>Track Name</th>
                     <th>Artist</th>
                     <th>Release date</th>
                     <th>Price</th>
                 </tr>
-                <c:forEach items="${tracks}" var="track">
+                <c:forEach items="${tracks}" var="track" varStatus="status">
                     <form action="downloadServlet" method="post">
                         <tr>
+                            <td><c:out value="${status.count}"/></td>
+                            <td><input type="hidden" name="tracknr" value=<c:out value="${status.count}" />></td>
                             <td>${track.trackname}</td>
                             <td>${track.trackreleasedate}</td>
                             <td>${track.trackprice}</td>
