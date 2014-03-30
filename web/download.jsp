@@ -54,6 +54,7 @@
                     <th>Release date</th>
                     <th>Price</th>
                 </tr>
+<<<<<<< HEAD
                 <c:forEach items="${tracks}" var="track" varStatus="status">
                     <form action="downloadServlet" method="post">
                         <tr>
@@ -66,6 +67,16 @@
                             <td><input type="submit" value="Koop"></td>
                         </tr>
                     </form>
+=======
+                <c:forEach items="${tracks}" var="track">
+                    <tr>
+                        <td>${track.trackname}</td>
+                        <td>${track.trackreleasedate}</td>
+                        <td>${track.trackprice}</td>
+                        <td>${track.artist_artistid}</td>
+                        <td><a href="trackDownload"><button class="btn">Koop</button></a></td>
+                    </tr>
+>>>>>>> 30eabbbf5ad1329dae6114873fce9991e3f48ed9
                 </c:forEach>
             </table>
 
