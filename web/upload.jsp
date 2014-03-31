@@ -39,10 +39,6 @@
                         <li class="active"><a href="#">Upload een nummer</a></li>
                     </ul>
                 </nav>
-                <div class="input-append">
-                    <input class="span2" id="appendedInputButtons" type="text">
-                    <button class="btn" type="button">Search</button>
-                </div>
             </div>
 
             <form method="post" action="uploadServlet" class="form-horizontal" enctype="multipart/form-data">

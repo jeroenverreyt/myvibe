@@ -40,10 +40,6 @@
                     <li><a href="upload.jsp">Upload een nummer</a></li>
                 </ul>
             </nav>
-            <div class="input-append">
-                <input class="span2" id="appendedInputButtons" type="text">
-                <button class="btn" type="button">Search</button>
-            </div>
         </div>
  <p class="alert alert-success" ${feedback.wijziging == null ? "style='display:none;'" : ""}>${feedback.wijziging}</p> 
         <form action="ChangeProfile" method="post" class="form-horizontal"> 
