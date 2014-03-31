@@ -66,7 +66,17 @@ public class TrackDao {
                 Statement stmt = con.createStatement()) {
             PreparedStatement statement = con.prepareStatement(GETBYID_QUERY);
             statement.setString(1, tracknr);
-            TrackBean track = (TrackBean) statement.executeQuery();
+            ResultSet rs = statement.executeQuery();
+            rs.next();
+            TrackBean track = new TrackBean();
+            String TrackName = rs.getString(1);
+            String TrackReleaseDate = rs.getString(2);
+            int TrackPrice = rs.getInt(3);
+            int Artist_ArtistID = rs.getInt(4);
+            track.setTrackname(TrackName);
+            track.setTrackreleasedate(TrackReleaseDate);
+            track.setTrackprice(TrackPrice);
+            track.setArtist_artistid(Artist_ArtistID);
             return track;
         }
     }

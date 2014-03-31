@@ -49,37 +49,34 @@ public class ChangeProfile extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
-
     }
 
     protected void doPost(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
-        
-      
-     Map<String, String> feedback = new HashMap<String, String>();
+
+
+        Map<String, String> feedback = new HashMap<String, String>();
 
         String newPassword = request.getParameter("newPassword");
         String newPhone = request.getParameter("newPhone");
-         HttpSession session = request.getSession();
-         String email =(String) session.getAttribute("emailCurrentuser");
-           System.out.println(email);
+        HttpSession session = request.getSession();
+        String email = (String) session.getAttribute("emailCurrentuser");
+        System.out.println(email);
         try {
-            if(!newPassword.equals("")){
+            if (!newPassword.equals("")) {
                 dao.changePassword(newPassword, email);
-                 feedback.put("wijziging", "Uw wijzigingen zijn opgeslagen!");
+                feedback.put("wijziging", "Uw wijzigingen zijn opgeslagen!");
             }
-            if(!newPhone.equals("")){
-                dao.changePhone(newPhone, email); 
-                 feedback.put("wijziging", "Uw wijzigingen zijn opgeslagen!");
+            if (!newPhone.equals("")) {
+                dao.changePhone(newPhone, email);
+                feedback.put("wijziging", "Uw wijzigingen zijn opgeslagen!");
             }
-          
+
         } catch (SQLException ex) {
             Logger.getLogger(ChangeProfile.class.getName()).log(Level.SEVERE, null, ex);
         }
-request.setAttribute("feedback", feedback);
-       RequestDispatcher disp = request.getRequestDispatcher(page);
-                disp.forward(request, response);
+        request.setAttribute("feedback", feedback);
+        RequestDispatcher disp = request.getRequestDispatcher(page);
+        disp.forward(request, response);
     }
-   
 }
-
