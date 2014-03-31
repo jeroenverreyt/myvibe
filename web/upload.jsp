@@ -13,6 +13,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Bootstrap -->
         <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <link href="css/bootstrap.css" rel="stylesheet" media="screen">
+        <link href="css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
+        <link href="css/bootstrap-responsive.css" rel="stylesheet" media="screen">
         <link href="css/home.css" rel="stylesheet" media="screen">
     </head>
     <body>
@@ -41,7 +44,7 @@
                 </nav>
             </div>
 
-            <form method="post" action="uploadServlet" class="form-horizontal" enctype="multipart/form-data">
+            <form method="post" action="uploadServlet" class="form-vertical" enctype="multipart/form-data">
                 <input type="text" class="input-xlarge" placeholder="Trackname" name="trackName"/>
 
                 <input type="text" class="input-xlarge" placeholder="Price" name="trackPrice"/>
