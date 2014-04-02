@@ -50,25 +50,25 @@
             
             <h6> Username: </h6>
             <p> ${currentSessionUser.login} </p>
-
-            <h6> Password: </h6>
-            <input type="text" id ="newPassword" name="newPassword"> </input>
-
+           
             <h6> Naam: </h6>
             <p> ${currentSessionUser.name} </p>
-
+            
             <h6> Voornaam: </h6>
             <p> ${currentSessionUser.firstName} </p>
-
-            <h6> Geboortedatum: </h6>
+            
+             <h6> Geboortedatum: </h6>
             <p> ${currentSessionUser.birthDate} </p>
 
             <h6> Email: </h6>
             <p> ${currentSessionUser.email} </p>
-
+            
             <h6> Phone: </h6>
-            <input type="text" id="newPhone" name="newPhone"> </input>
+            <input type="text" id="newPhone" name="newPhone" value="${currentSessionUser.phone}"> </input>
 
+            <h6> Password: </h6>
+            <input type="password" id ="newPassword" name="newPassword"> </input>
+            
             <h6> Credits </h6>
             <p> ${currentSessionUser.credits} </p>  
             
