@@ -109,6 +109,16 @@ public class UserDao {
         }
     }
     
+       public void buyCredits(int newCredits, String email) throws SQLException{
+        
+        String buy_credits_query = "UPDATE user SET UserCredits= '" + newCredits + "' WHERE UserEmail='" + email + "';";
+        System.out.println(buy_credits_query);
+        try (Connection con = getConnection();
+                PreparedStatement stmt = con.prepareStatement(buy_credits_query)) {
+                  
+                  stmt.executeUpdate();
+        }
+    }
     private Connection getConnection() throws SQLException {
         return DriverManager.getConnection(url, user, password);
     }

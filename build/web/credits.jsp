@@ -38,7 +38,7 @@
                     <button class="btn" type="button">Search</button>
                 </div>
             </div>
-            <form action="AddCredits" method="post" class="form-horizontal"> 
+            <form action="CreditServlet" method="post" class="form-horizontal"> 
             
         
             <h6> Aantal credits: </h6>

@@ -97,7 +97,7 @@ public final class credits_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                    <button class=\"btn\" type=\"button\">Search</button>\n");
       out.write("                </div>\n");
       out.write("            </div>\n");
-      out.write("            <form action=\"AddCredits\" method=\"post\" class=\"form-horizontal\"> \n");
+      out.write("            <form action=\"CreditServlet\" method=\"post\" class=\"form-horizontal\"> \n");
       out.write("            \n");
       out.write("        \n");
       out.write("            <h6> Aantal credits: </h6>\n");
