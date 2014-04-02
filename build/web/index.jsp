@@ -34,6 +34,7 @@
 		<div class="row">
 			<div class="span6">
 				<h2>Ik heb al een account</h2>
+                                  <p class="alert alert-error" ${feedback.login == null ? "style='display:none;'" : ""}>${feedback.login}</p> 
 				<form class="form-horizontal" action="LogIn" method="post">
 					<input type="text" id="inputEmail" class="input-xlarge" placeholder="Jouw e-mailadres" name="email">
 					

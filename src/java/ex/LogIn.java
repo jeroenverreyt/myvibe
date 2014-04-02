@@ -76,6 +76,7 @@ public class LogIn extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
+         Map<String, String> feedback = new HashMap<String, String>();
         try {
 
             UserBean user = new UserBean();
@@ -94,6 +95,8 @@ public class LogIn extends HttpServlet {
                 RequestDispatcher disp = request.getRequestDispatcher(page);
                 disp.forward(request, response);
             } else {
+                feedback.put("login", "Het wachtwoord of emailadres is fout!");
+                request.setAttribute("feedback", feedback);
                 RequestDispatcher disp = request.getRequestDispatcher(errorpage);
                 disp.forward(request, response);
             }
