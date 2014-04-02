@@ -50,30 +50,34 @@
             
             <h6> Username: </h6>
             <p> ${currentSessionUser.login} </p>
-
-            <h6> Password: </h6>
-            <input type="text" id ="newPassword" name="newPassword"> </input>
-
+           
             <h6> Naam: </h6>
             <p> ${currentSessionUser.name} </p>
-
+            
             <h6> Voornaam: </h6>
             <p> ${currentSessionUser.firstName} </p>
-
-            <h6> Geboortedatum: </h6>
+            
+             <h6> Geboortedatum: </h6>
             <p> ${currentSessionUser.birthDate} </p>
 
             <h6> Email: </h6>
             <p> ${currentSessionUser.email} </p>
+            
+            <h6> Telefoon: </h6>
+            <input type="text" id="newPhone" name="newPhone" value="${currentSessionUser.phone}"> </input>
 
-            <h6> Phone: </h6>
-            <input type="text" id="newPhone" name="newPhone"> </input>
-
+            <h6> Nieuw paswoord: </h6>
+            <input type="password" id ="newPassword" name="newPassword"> </input>
+            
             <h6> Credits </h6>
             <p> ${currentSessionUser.credits} </p>  
             
             <button type="submit" class="btn btn-primary">Bevestig wijzigingen</button>
         </form>
+        <form action="deleteaccount.jsp" method="post" class="form-horizontal"> 
+            <button type="submit" class="btn btn-danger">Verwijder account</button>
+        </form>
+
     </div>
 </body>
 </html>

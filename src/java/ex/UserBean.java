@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class UserBean implements Serializable {
 
+    private int id;
     private String login;
     private String pass;
     private String name;
@@ -17,11 +18,6 @@ public class UserBean implements Serializable {
     public UserBean() {
     }
 
-    public UserBean(String name, String firstName) {
-        this.name = name;
-        this.firstName = firstName;
-    }
-
     public UserBean(String login, String pass, String name, String firstName, String birthDate, String email, int phone, int credits) {
         this.login = login;
         this.pass = pass;
@@ -31,6 +27,32 @@ public class UserBean implements Serializable {
         this.email = email;
         this.phone = phone;
         this.credits = credits;
+        
+    }
+
+    public UserBean(String name, String firstName) {
+        this.name = name;
+        this.firstName = firstName;
+    }
+
+    public UserBean(int id, String login, String pass, String name, String firstName, String birthDate, String email, int phone, int credits) {
+        this.id = id;
+        this.login = login;
+        this.pass = pass;
+        this.name = name;
+        this.firstName = firstName;
+        this.birthDate = birthDate;
+        this.email = email;
+        this.phone = phone;
+        this.credits = credits;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getLogin() {
