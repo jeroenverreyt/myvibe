@@ -19,9 +19,10 @@ public class SecurePassword {
     }
     
     public String md5password(String pass){
-          String passwordToHash = pass;
+         
+          String salt = "39494::://ééé;;!!èè@mkljkei'''§§@.";
+           String passwordToHash = pass + salt;
           String generatedPassword = null;
-            
            try {
                //create messageDigest instance for MD5
                MessageDigest md = MessageDigest.getInstance("MD5");
