@@ -57,7 +57,10 @@ public class ChangeProfile extends HttpServlet {
 
         Map<String, String> feedback = new HashMap<String, String>();
 
-        String newPassword = request.getParameter("newPassword");
+        String newPasswordToHash = request.getParameter("newPassword");
+        SecurePassword s = new SecurePassword();
+        
+        String newPassword = s.md5password(newPasswordToHash);
         String newPhone = request.getParameter("newPhone");
         HttpSession session = request.getSession();
         UserBean currentUser = (UserBean)session.getAttribute("currentSessionUser");
@@ -67,6 +70,7 @@ public class ChangeProfile extends HttpServlet {
   
         try {
             if (!newPassword.equals("")) {
+                
                 dao.changePassword(newPassword, currentId);
                 feedback.put("wijziging", "Uw wijzigingen zijn opgeslagen!");
             }

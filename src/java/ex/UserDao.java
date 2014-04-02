@@ -142,8 +142,10 @@ public class UserDao {
         Statement stmt = null;
 
         String email = bean.getEmail();
-        String password = bean.getPass();
-
+        String passwordToHash = bean.getPass();
+        SecurePassword s = new SecurePassword();
+        
+        String password = s.md5password(passwordToHash);
         String searchQuery =
                 "select * from user where UserEmail='"
                 + email
