@@ -1,14 +1,11 @@
 /*
- * To change this template, choose Tools | Templates
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package ex;
 
-import ex.UserBean;
-import ex.UserDao;
-import java.text.*;
-import java.util.*;
-import java.sql.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -25,31 +22,28 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author Jeroen
+ * @author Keris
  */
-@WebServlet(value = "/LogIn", initParams = {
+@WebServlet(value = "/DeleteAccount", initParams = {
     @WebInitParam(name = "driver", value = "com.mysql.jdbc.Driver"),
     @WebInitParam(name = "url", value = "jdbc:mysql://db4free.net/myvibe10"),
     @WebInitParam(name = "user", value = "keris"),
     @WebInitParam(name = "password", value = "kerisve"),
     @WebInitParam(name = "page", value = "/home.jsp"),
-    @WebInitParam(name = "errorpage", value = "/index.jsp"),})
-public class LogIn extends HttpServlet {
+    })
+public class DeleteAccount extends HttpServlet {
 
-    private UserDao dao;
+   private UserDao dao;
     private String page;
-    private String errorpage;
-    RequestDispatcher dispatcher;
-
     
-    public void init() throws ServletException {
+       public void init() throws ServletException {
         try {
             String driver = getInitParameter("driver");
             String url = getInitParameter("url");
             String user = getInitParameter("user");
             String password = getInitParameter("password");
             page = getInitParameter("page");
-            errorpage = getInitParameter("errorpage");
+           
             if (driver == null || url == null || user == null || password == null
                     || page == null) {
                 throw new ServletException("Init parameter missing");
@@ -63,49 +57,27 @@ public class LogIn extends HttpServlet {
             throw new ServletException("Unable to load driver", ex);
         }
     }
-
-    /**
-     * Processes requests for both HTTP
-     * <code>GET</code> and
-     * <code>POST</code> methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+            
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException {
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        HttpSession session = request.getSession();
+        String email = (String) session.getAttribute("emailCurrentuser");
+       
         try {
-
-            UserBean user = new UserBean();
-            user.setEmail(request.getParameter("email"));
-            user.setPass(request.getParameter("password"));
-
-            user = UserDao.login(user);
-
-            if (user.isValid()) {
-
-                HttpSession session = request.getSession(true);
-                session.setAttribute("currentSessionUser", user);
-                session.setAttribute("emailCurrentuser", user.getEmail());
-             
-                session.setAttribute("loggedIn", true);
-                RequestDispatcher disp = request.getRequestDispatcher(page);
-                disp.forward(request, response);
-            } else {
-                RequestDispatcher disp = request.getRequestDispatcher(errorpage);
-                disp.forward(request, response);
-            }
-        } catch (Throwable theException) {
-            System.out.println(theException);
+            dao.deleteUser(email);
+        } catch (SQLException ex) {
+            Logger.getLogger(DeleteAccount.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        System.out.println(email);
+          RequestDispatcher disp = request.getRequestDispatcher("index.jsp");
+        disp.forward(request, response);
     }
-// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
 
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
-     * Handles the HTTP
-     * <code>GET</code> method.
+     * Handles the HTTP <code>GET</code> method.
      *
      * @param request servlet request
      * @param response servlet response
@@ -115,19 +87,11 @@ public class LogIn extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-
-
-        } catch (SQLException ex) {
-            Logger.getLogger(LogIn.class
-                    .getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**
-     * Handles the HTTP
-     * <code>POST</code> method.
+     * Handles the HTTP <code>POST</code> method.
      *
      * @param request servlet request
      * @param response servlet response
@@ -137,14 +101,7 @@ public class LogIn extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-
-
-        } catch (SQLException ex) {
-            Logger.getLogger(LogIn.class
-                    .getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**
@@ -156,4 +113,5 @@ public class LogIn extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
 }

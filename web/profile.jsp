@@ -74,6 +74,10 @@
             
             <button type="submit" class="btn btn-primary">Bevestig wijzigingen</button>
         </form>
+        <form action="DeleteAccount" method="post" class="form-horizontal"> 
+            <button type="submit" class="btn btn-primary">Verwijder account</button>
+        </form>
+
     </div>
 </body>
 </html>

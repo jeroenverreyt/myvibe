@@ -98,6 +98,19 @@ public class UserDao {
                   stmt.executeUpdate();
         }
     }
+      public void deleteUser(String email) throws SQLException{
+        
+        String delete_user_query = "DELETE FROM user WHERE UserEmail='" + email + "';";
+           System.out.println(delete_user_query);
+        try (Connection con = getConnection();
+                PreparedStatement stmt = con.prepareStatement(delete_user_query)) {
+             
+                  stmt.executeUpdate();
+                   con.commit();
+        }
+    }
+    
+    
     public void changePassword(String newPassword, String email) throws SQLException{
         
         String change_phone_query = "UPDATE user SET UserPass= '" + newPassword + "' WHERE UserEmail='" + email + "';";
