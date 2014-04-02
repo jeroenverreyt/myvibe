@@ -63,10 +63,10 @@
             <h6> Email: </h6>
             <p> ${currentSessionUser.email} </p>
             
-            <h6> Phone: </h6>
+            <h6> Telefoon </h6>
             <input type="text" id="newPhone" name="newPhone" value="${currentSessionUser.phone}"> </input>
 
-            <h6> Password: </h6>
+            <h6> Niew paswoord: </h6>
             <input type="password" id ="newPassword" name="newPassword"> </input>
             
             <h6> Credits </h6>

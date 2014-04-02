@@ -132,12 +132,12 @@ public final class profile_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${currentSessionUser.email}", java.lang.String.class, (PageContext)_jspx_page_context, null));
       out.write(" </p>\r\n");
       out.write("            \r\n");
-      out.write("            <h6> Phone: </h6>\r\n");
+      out.write("            <h6> Telefoon </h6>\r\n");
       out.write("            <input type=\"text\" id=\"newPhone\" name=\"newPhone\" value=\"");
       out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${currentSessionUser.phone}", java.lang.String.class, (PageContext)_jspx_page_context, null));
       out.write("\"> </input>\r\n");
       out.write("\r\n");
-      out.write("            <h6> Password: </h6>\r\n");
+      out.write("            <h6> Niew paswoord: </h6>\r\n");
       out.write("            <input type=\"password\" id =\"newPassword\" name=\"newPassword\"> </input>\r\n");
       out.write("            \r\n");
       out.write("            <h6> Credits </h6>\r\n");
