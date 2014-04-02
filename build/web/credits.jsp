@@ -45,7 +45,7 @@
             <p> ${currentSessionUser.credits} </p>  
             
              <h6> Koop credits </h6>
-            <input type="number" min="1" id="buyCredits" name="buyCredits"> </input>
+            <input type="number" min="1" id="buyCredits" name="buyCredits" required> </input>
             
             <button type="submit" class="btn btn-primary">Koop</button>
         </form>

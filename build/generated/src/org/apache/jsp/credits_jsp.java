@@ -106,7 +106,7 @@ public final class credits_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write(" </p>  \n");
       out.write("            \n");
       out.write("             <h6> Koop credits </h6>\n");
-      out.write("            <input type=\"number\" min=\"1\" id=\"buyCredits\" name=\"buyCredits\"> </input>\n");
+      out.write("            <input type=\"number\" min=\"1\" id=\"buyCredits\" name=\"buyCredits\" required> </input>\n");
       out.write("            \n");
       out.write("            <button type=\"submit\" class=\"btn btn-primary\">Koop</button>\n");
       out.write("        </form>\n");
