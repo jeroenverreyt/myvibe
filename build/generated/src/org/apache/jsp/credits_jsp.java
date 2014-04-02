@@ -97,6 +97,11 @@ public final class credits_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                    <button class=\"btn\" type=\"button\">Search</button>\n");
       out.write("                </div>\n");
       out.write("            </div>\n");
+      out.write("            <p class=\"alert alert-success\" ");
+      out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${mess.credits == null ? \"style='display:none;'\" : \"\"}", java.lang.String.class, (PageContext)_jspx_page_context, null));
+      out.write('>');
+      out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${mess.credits}", java.lang.String.class, (PageContext)_jspx_page_context, null));
+      out.write("</p> \n");
       out.write("            <form action=\"CreditServlet\" method=\"post\" class=\"form-horizontal\"> \n");
       out.write("            \n");
       out.write("        \n");

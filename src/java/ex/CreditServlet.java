@@ -15,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -25,23 +26,42 @@ import javax.servlet.http.HttpSession;
  *
  * @author Keris
  */
-@WebServlet(name = "CreditServlet", urlPatterns = {"/CreditServlet"})
+@WebServlet(value = "/CreditServlet", initParams = {
+    @WebInitParam(name = "driver", value = "com.mysql.jdbc.Driver"),
+    @WebInitParam(name = "url", value = "jdbc:mysql://db4free.net/myvibe10"),
+    @WebInitParam(name = "user", value = "keris"),
+    @WebInitParam(name = "password", value = "kerisve"),
+    @WebInitParam(name = "page", value = "/credits.jsp"),})
 public class CreditServlet extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    private UserDao dao;
+    private String page;
+
+    public void init() throws ServletException {
+        try {
+            String driver = getInitParameter("driver");
+            String url = getInitParameter("url");
+            String user = getInitParameter("user");
+            String password = getInitParameter("password");
+            page = getInitParameter("page");
+            if (driver == null || url == null || user == null || password == null
+                    || page == null) {
+                throw new ServletException("Init parameter missing");
+            }
+            dao = new UserDao();
+            dao.setDriver(driver);
+            dao.setUser(user);
+            dao.setPassword(password);
+            dao.setUrl(url);
+        } catch (ClassNotFoundException ex) {
+            throw new ServletException("Unable to load driver", ex);
+        }
+    }
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-    //    Map<String, String> feedback = new HashMap<String, String>();
-         UserDao dao = new UserDao();
+        Map<String, String> mess = new HashMap<String, String>();
+       
         
         int addCredits = Integer.parseInt(request.getParameter("buyCredits"));
         HttpSession session = request.getSession();
@@ -49,13 +69,15 @@ public class CreditServlet extends HttpServlet {
         
         int currentCredits = currentUser.getCredits();
         int newCredits = currentCredits + addCredits;
+        //credits updaten
         currentUser.setCredits(newCredits);
+        //nieuwe sessie maken met bijgevoegde credits
         session.setAttribute("currentSessionUser", currentUser);
-        System.out.println(""+ newCredits);
+       
        String email = currentUser.getEmail();
         try {
             dao.buyCredits(newCredits, email);
-           
+           mess.put("credits", "Uw aankoop is voltooid");
             
         
         } catch (SQLException ex) {
@@ -64,8 +86,8 @@ public class CreditServlet extends HttpServlet {
         
          
           
-      //  request.setAttribute("feedback", feedback);
-       RequestDispatcher disp = request.getRequestDispatcher("credits.jsp");
+       request.setAttribute("mess", mess);
+       RequestDispatcher disp = request.getRequestDispatcher(page);
        disp.forward(request, response);
    
     }

@@ -38,6 +38,7 @@
                     <button class="btn" type="button">Search</button>
                 </div>
             </div>
+            <p class="alert alert-success" ${mess.credits == null ? "style='display:none;'" : ""}>${mess.credits}</p> 
             <form action="CreditServlet" method="post" class="form-horizontal"> 
             
         
