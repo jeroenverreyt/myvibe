@@ -146,7 +146,7 @@ public final class profile_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("            <button type=\"submit\" class=\"btn btn-primary\">Bevestig wijzigingen</button>\r\n");
       out.write("        </form>\r\n");
       out.write("        <form action=\"deleteaccount.jsp\" method=\"post\" class=\"form-horizontal\"> \r\n");
-      out.write("            <button type=\"submit\" class=\"btn btn-primary\">Verwijder account</button>\r\n");
+      out.write("            <button type=\"submit\" class=\"btn btn-danger\">Verwijder account</button>\r\n");
       out.write("        </form>\r\n");
       out.write("\r\n");
       out.write("    </div>\r\n");

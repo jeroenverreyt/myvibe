@@ -38,15 +38,15 @@
                     <button class="btn" type="button">Search</button>
                 </div>
             </div>
-                    <h2> Bent u zeker dat u je account wil verwijderen? </h2>
-                      <form action="deleteaccount.jsp" method="post" class="form-horizontal"> 
-            <button type="submit" class="btn btn-primary">Ja</button>
-        </form>
-                        <form action="profile.jsp" method="post" class="form-horizontal"> 
-            <button type="submit" class="btn btn-primary">Nee</button>
-        </form>
+            <h2> Bent u zeker dat u je account wil verwijderen? </h2>
+            <form action="DeleteAccount" method="post" class="form-horizontal"> 
+                <button type="submit" class="btn btn-danger">Ja</button>
+            </form>
+            <form action="profile.jsp" method="post" class="form-horizontal"> 
+                <button type="submit" class="btn btn-primary">Nee</button>
+            </form>
 
- <script src="http://code.jquery.com/jquery.js"></script>
-        <script src="js/bootstrap.min.js"></script>
+            <script src="http://code.jquery.com/jquery.js"></script>
+            <script src="js/bootstrap.min.js"></script>
     </body>
 </html>
