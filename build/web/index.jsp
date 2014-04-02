@@ -52,7 +52,7 @@
                                 <p class="alert alert-error" ${messages.user == null ? "style='display:none;'" : ""}>${messages.user}</p> 
                                 <p class="alert alert-success" ${messages.register == null ? "style='display:none;'" : ""}>${messages.register}</p> 
                                   
-				<form class="form-horizontal" method="post">
+				<form class="form-horizontal" action ="UserMVC" method="post">
 				
 					<input type="text" id="inputVoornaam" name ="inputFirstName"class="input-small" placeholder="Voornaam" required>
 					
