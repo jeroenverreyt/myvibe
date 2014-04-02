@@ -66,6 +66,7 @@ public class UserServlet extends HttpServlet {
             
             
             boolean userExists;
+            
             String login = request.getParameter("inputUsername");
             String pass = request.getParameter("inputPassword");
             String name = request.getParameter("inputName");

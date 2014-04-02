@@ -62,10 +62,12 @@ public class DeleteAccount extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
-        String email = (String) session.getAttribute("emailCurrentuser");
+        UserBean currentUser = (UserBean)session.getAttribute("currentSessionUser");
+        
+        int currentId = currentUser.getId();
        
         try {
-            dao.deleteUser(email);
+            dao.deleteUser(currentId);
         } catch (SQLException ex) {
             Logger.getLogger(DeleteAccount.class.getName()).log(Level.SEVERE, null, ex);
         }

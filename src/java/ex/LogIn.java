@@ -88,7 +88,7 @@ public class LogIn extends HttpServlet {
 
                 HttpSession session = request.getSession(true);
                 session.setAttribute("currentSessionUser", user);
-                session.setAttribute("emailCurrentuser", user.getEmail());
+               
              
                 session.setAttribute("loggedIn", true);
                 RequestDispatcher disp = request.getRequestDispatcher(page);

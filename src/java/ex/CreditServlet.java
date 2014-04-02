@@ -74,9 +74,9 @@ public class CreditServlet extends HttpServlet {
         //nieuwe sessie maken met bijgevoegde credits
         session.setAttribute("currentSessionUser", currentUser);
        
-       String email = currentUser.getEmail();
+       int currentId = currentUser.getId();
         try {
-            dao.buyCredits(newCredits, email);
+            dao.buyCredits(newCredits, currentId);
            mess.put("credits", "Uw aankoop is voltooid");
             
         

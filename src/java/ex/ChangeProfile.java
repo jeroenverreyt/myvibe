@@ -60,15 +60,18 @@ public class ChangeProfile extends HttpServlet {
         String newPassword = request.getParameter("newPassword");
         String newPhone = request.getParameter("newPhone");
         HttpSession session = request.getSession();
-        String email = (String) session.getAttribute("emailCurrentuser");
-        System.out.println(email);
+        UserBean currentUser = (UserBean)session.getAttribute("currentSessionUser");
+      
+        int currentId = currentUser.getId();
+        
+  
         try {
             if (!newPassword.equals("")) {
-                dao.changePassword(newPassword, email);
+                dao.changePassword(newPassword, currentId);
                 feedback.put("wijziging", "Uw wijzigingen zijn opgeslagen!");
             }
             if (!newPhone.equals("")) {
-                dao.changePhone(newPhone, email);
+                dao.changePhone(newPhone, currentId);
                 feedback.put("wijziging", "Uw wijzigingen zijn opgeslagen!");
             }
 

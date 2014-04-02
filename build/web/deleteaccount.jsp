@@ -38,7 +38,7 @@
                     <button class="btn" type="button">Search</button>
                 </div>
             </div>
-            <h2> Bent u zeker dat u je account wil verwijderen? </h2>
+            <h2> Bent u zeker dat u deze account wil verwijderen? </h2>
             <form action="DeleteAccount" method="post" class="form-horizontal"> 
                 <button type="submit" class="btn btn-danger">Ja</button>
             </form>
