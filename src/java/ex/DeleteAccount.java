@@ -70,9 +70,9 @@ public class DeleteAccount extends HttpServlet {
             Logger.getLogger(DeleteAccount.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        System.out.println(email);
-          RequestDispatcher disp = request.getRequestDispatcher("index.jsp");
-        disp.forward(request, response);
+      
+        session.invalidate();
+	response.sendRedirect(request.getContextPath() + "/index.jsp");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
