@@ -11,6 +11,7 @@ import java.io.Serializable;
  * @author Jeroen
  */
 public class TrackBean implements Serializable{
+    private int trackid;
     private String trackname;
     private String trackreleasedate;
     private int trackprice;
@@ -24,6 +25,22 @@ public class TrackBean implements Serializable{
         this.trackreleasedate = trackreleasedate;
         this.trackprice = trackprice;
         this.artist_artistid = artist_artistid;
+    }
+
+    public TrackBean(int trackid, String trackname, String trackreleasedate, int trackprice, int artist_artistid) {
+        this.trackid = trackid;
+        this.trackname = trackname;
+        this.trackreleasedate = trackreleasedate;
+        this.trackprice = trackprice;
+        this.artist_artistid = artist_artistid;
+    }
+
+    public int getTrackid() {
+        return trackid;
+    }
+
+    public void setTrackid(int trackid) {
+        this.trackid = trackid;
     }
 
     public String getTrackname() {

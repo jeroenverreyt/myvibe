@@ -13,6 +13,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Bootstrap -->
         <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <link href="css/bootstrap.css" rel="stylesheet" media="screen">
+        <link href="css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
+        <link href="css/bootstrap-responsive.css" rel="stylesheet" media="screen">
         <link href="css/home.css" rel="stylesheet" media="screen">
     </head>
     <body>
@@ -34,15 +37,11 @@
                 <nav role="navigation" class="navbar navbar-default">
                     <ul class="nav navbar-nav">
                         <li class="active"><a href="#">Home</a></li>
-                        <li><a href="playlist.html">Mijn afspeellijst</a></li>
+                        <li><a href="playlist.jsp">Mijn afspeellijst</a></li>
                         <li><a href="OverzichtTracks">Koop een nummer</a></li>
                         <li><a href="upload.jsp">Upload een nummer</a></li>
                     </ul>
                 </nav>
-                <div class="input-append">
-                    <input class="span2" id="appendedInputButtons" type="text">
-                    <button class="btn" type="button">Search</button>
-                </div>
             </div>
 
             <div class="row" id="content">

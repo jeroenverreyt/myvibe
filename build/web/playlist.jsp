@@ -37,22 +37,12 @@
                 <nav role="navigation" class="navbar navbar-default">
                     <ul class="nav navbar-nav">
                         <li><a href="home.jsp">Home</a></li>
-                        <li><a href="playlist.jsp">Mijn afspeellijst</a></li>
+                        <li class="active"><a href="#">Mijn afspeellijst</a></li>
                         <li><a href="OverzichtTracks">Koop een nummer</a></li>
-                        <li class="active"><a href="#">Upload een nummer</a></li>
+                        <li><a href="upload.jsp">Upload een nummer</a></li>
                     </ul>
                 </nav>
             </div>
-
-            <form method="post" action="uploadServlet" class="form-vertical" enctype="multipart/form-data">
-                <input type="text" class="input-xlarge" placeholder="Trackname" name="trackName"/>
-
-                <input type="text" class="input-xlarge" placeholder="Price" name="trackPrice"/>
-
-                <input type="file" class="input-xlarge" name="trackAudioFile"/>
-
-                <input type="submit" value="Upload">
-            </form>
 
         </div>
     </body>
