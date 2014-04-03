@@ -65,7 +65,7 @@ public class UserServlet extends HttpServlet {
             Map<String, String> messages = new HashMap<String, String>();
 
             boolean userExists;
-
+            String artist = request.getParameter("CheckBoxStageName");
             String login = request.getParameter("inputUsername");
             String pass = request.getParameter("inputPassword");
             String name = request.getParameter("inputName");
@@ -80,42 +80,20 @@ public class UserServlet extends HttpServlet {
             userExists = dao.userExists(email);
             SecurePassword s = new SecurePassword();
             String generatedPassword = s.md5password(pass);
-            
-/*
-             String passwordToHash = pass;
-             String generatedPassword = null;
-            
-             try {
-             //create messageDigest instance for MD5
-             MessageDigest md = MessageDigest.getInstance("MD5");
-             //Add password bytes to digest
-             md.update(passwordToHash.getBytes());
-             //Get the hash's bytes
-             byte[] bytes = md.digest();
-                
-             //This bytes[] has bytes in decimal format;
-             //Convert it to hexadecimal format
-             StringBuilder sb = new StringBuilder();
-             for(int i=0; i< bytes.length ;i++)
-             {
-             sb.append(Integer.toString((bytes[
-             i] & 0xff) + 0x100, 16).substring(1));
-             }
-             //Get complete hashed password in hex format
-             generatedPassword = sb.toString();
-             }catch (Exception e){
-             e.printStackTrace();
-             }
-           
-             */
+            System.out.println(artist);
             System.out.println(confEmail + "  " + email);
             if (!email.equals(confEmail)) {
                 System.out.println("Email addresses are not equal");
                 messages.put("email", "Beide email adressen moeten gelijk zijn!");
             } else {
                 if (!userExists) {
+                    if(artist.equals("on")){
+                        // make artist
+                    }else{
                     UserBean user = new UserBean(login, generatedPassword, name, firstname, birthDate, email, phone, 0);
-                    dao.addUser(user);
+                    dao.addUser(user); 
+                    }
+                   
                     messages.put("register", "U bent met succes geregistreerd!");
                 } else {
                     System.out.println("user allready exists");

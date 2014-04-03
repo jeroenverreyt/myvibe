@@ -156,7 +156,7 @@
 					<input type="text" id="inputPhonenumber" name="inputPhonenumber" class="input-xlarge" placeholder="Telefoonnummer" required>
 					
 					<label class="checkbox input-xlarge">
-						<input type="checkbox" id="CheckboxStageName" onclick="disableFunction()"> Ik ben een artiest
+						<input type="checkbox" id="CheckboxStageName" name="CheckBoxStageName" onclick="disableFunction()"> Ik ben een artiest
 					</label>
 					
 					<input type="text" id="inputStagename" name="inputStagename" class="input-xlarge" placeholder="Artiestennaam" disabled required>
