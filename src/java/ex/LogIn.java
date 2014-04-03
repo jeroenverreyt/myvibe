@@ -32,8 +32,8 @@ import javax.servlet.http.HttpSession;
     @WebInitParam(name = "url", value = "jdbc:mysql://db4free.net/myvibe10"),
     @WebInitParam(name = "user", value = "keris"),
     @WebInitParam(name = "password", value = "kerisve"),
-    @WebInitParam(name = "page", value = "/home.jsp"),
-    @WebInitParam(name = "errorpage", value = "/index.jsp"),})
+    @WebInitParam(name = "page", value = "home.jsp"),
+    @WebInitParam(name = "errorpage", value = "index.jsp"),})
 public class LogIn extends HttpServlet {
 
     private UserDao dao;
