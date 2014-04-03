@@ -57,7 +57,7 @@
                     <form action="downloadServlet" method="post">
                         <tr>
                             <td><c:out value="${status.count}"/></td>
-                            <td><input type="hidden" name="tracknr" value=<c:out value="${status.count}" />></td>
+                            <td><input type="hidden" name="trackid" value="${track.trackid}" /></td>
                             <td>${track.trackname}</td>
                             <td>${track.trackreleasedate}</td>
                             <td>${track.trackprice}</td>

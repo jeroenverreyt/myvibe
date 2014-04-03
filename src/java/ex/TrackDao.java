@@ -23,7 +23,7 @@ public class TrackDao {
     private String url;
     private String user;
     private String password;
-    private static final String GET_QUERY = "select TrackName, TrackReleaseDate, TrackPrice, Artist_ArtistID from track";
+    private static final String GET_QUERY = "select TrackID, TrackName, TrackReleaseDate, TrackPrice, Artist_ArtistID from track";
     private static final String GETBYID_QUERY = "select TrackName, TrackReleaseDate, TrackPrice, Artist_ArtistID from track where TrackID = ?";
     private static final String ADD_QUERY = "INSERT INTO track (TrackName, TrackPrice, TrackAudioFile,Artist_ArtistID) values (?, ?, ?, 1)";
     static Connection currentCon = null;
@@ -51,10 +51,11 @@ public class TrackDao {
             List<TrackBean> tracks = new ArrayList<TrackBean>();
             ResultSet rs = stmt.executeQuery(GET_QUERY);
             while (rs.next()) {
-                TrackBean track = new TrackBean(rs.getString(1),
+                TrackBean track = new TrackBean(rs.getInt(1), 
                         rs.getString(2),
-                        rs.getInt(3),
-                        rs.getInt(4));
+                        rs.getString(3),
+                        rs.getInt(4),
+                        rs.getInt(5));
                 tracks.add(track);
             }
             return tracks;
