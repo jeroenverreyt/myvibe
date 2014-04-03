@@ -108,7 +108,7 @@ public class UserDao {
         System.out.println(delete_user_query);
         try (Connection con = getConnection();
                 PreparedStatement stmt = con.prepareStatement(delete_user_query)) {
-                 stmt.setInt(1, id);
+            stmt.setInt(1, id);
             stmt.executeUpdate();
             con.commit();
         }
