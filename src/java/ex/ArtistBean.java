@@ -1,9 +1,17 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
 package ex;
 
-import java.io.Serializable;
-
-public class UserBean implements Serializable {
-
+/**
+ *
+ * @author Keris
+ */
+public class ArtistBean {
+    
     private int id;
     private String login;
     private String pass;
@@ -12,31 +20,13 @@ public class UserBean implements Serializable {
     private String birthDate;
     private String email;
     private int phone;
-    private int credits;
-    private boolean valid;
-
-    public UserBean() {
-    }
-
-    public UserBean(String login, String pass, String name, String firstName, String birthDate, String email, int phone, int credits) {
-        this.login = login;
-        this.pass = pass;
-        this.name = name;
-        this.firstName = firstName;
-        this.birthDate = birthDate;
-        this.email = email;
-        this.phone = phone;
-        this.credits = credits;
+    private String artistName;
+    
+    public ArtistBean(){
         
     }
 
-    public UserBean(String name, String firstName) {
-        this.name = name;
-        this.firstName = firstName;
-    }
-
-    public UserBean(int id, String login, String pass, String name, String firstName, String birthDate, String email, int phone, int credits) {
-        this.id = id;
+    public ArtistBean(String login, String pass, String name, String firstName, String birthDate, String email, int phone, String artistName) {
         this.login = login;
         this.pass = pass;
         this.name = name;
@@ -44,7 +34,7 @@ public class UserBean implements Serializable {
         this.birthDate = birthDate;
         this.email = email;
         this.phone = phone;
-        this.credits = credits;
+        this.artistName = artistName;
     }
 
     public int getId() {
@@ -111,19 +101,15 @@ public class UserBean implements Serializable {
         this.phone = phone;
     }
 
-    public int getCredits() {
-        return credits;
+    public String getArtistName() {
+        return artistName;
     }
 
-    public void setCredits(int credits) {
-        this.credits = credits;
+    public void setArtistName(String artistName) {
+        this.artistName = artistName;
     }
-
-    public boolean isValid() {
-        return valid;
-    }
-
-    public void setValid(boolean newValid) {
-        valid = newValid;
-    }
+    
+    
+    
+    
 }

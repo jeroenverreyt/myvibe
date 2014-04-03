@@ -17,7 +17,7 @@ import javax.servlet.http.*;
     @WebInitParam(name = "url", value = "jdbc:mysql://db4free.net/myvibe10"),
     @WebInitParam(name = "user", value = "keris"),
     @WebInitParam(name = "password", value = "kerisve"),
-    @WebInitParam(name = "page", value = "/WEB-INF/pages/users.jsp"),})
+    @WebInitParam(name = "page", value = "index.jsp"),})
 public class UserServlet extends HttpServlet {
 
     private UserDao dao;
@@ -63,9 +63,9 @@ public class UserServlet extends HttpServlet {
 
         try {
             Map<String, String> messages = new HashMap<String, String>();
-            
-            
+
             boolean userExists;
+            String artist = request.getParameter("CheckBoxStageName");
             String login = request.getParameter("inputUsername");
             String pass = request.getParameter("inputPassword");
             String name = request.getParameter("inputName");
@@ -78,50 +78,29 @@ public class UserServlet extends HttpServlet {
             String year = request.getParameter("year");
             String birthDate = year + "-" + month + "-" + day;
             userExists = dao.userExists(email);
-
-             String passwordToHash = pass;
-            String generatedPassword = null;
-            
-           try {
-               //create messageDigest instance for MD5
-               MessageDigest md = MessageDigest.getInstance("MD5");
-               //Add password bytes to digest
-                md.update(passwordToHash.getBytes());
-                //Get the hash's bytes
-                byte[] bytes = md.digest();
-                
-                //This bytes[] has bytes in decimal format;
-                //Convert it to hexadecimal format
-                StringBuilder sb = new StringBuilder();
-                for(int i=0; i< bytes.length ;i++)
-                {
-                    sb.append(Integer.toString((bytes[
-                            i] & 0xff) + 0x100, 16).substring(1));
-                }
-                //Get complete hashed password in hex format
-                generatedPassword = sb.toString();
-           }catch (Exception e){
-               e.printStackTrace();
-           }
-           
-            
-            
+            SecurePassword s = new SecurePassword();
+            String generatedPassword = s.md5password(pass);
+            System.out.println(artist);
+            System.out.println(confEmail + "  " + email);
             if (!email.equals(confEmail)) {
                 System.out.println("Email addresses are not equal");
-                 messages.put("email", "Beide email adressen moeten gelijk zijn!");
+                messages.put("email", "Beide email adressen moeten gelijk zijn!");
             } else {
                 if (!userExists) {
+                   
                     UserBean user = new UserBean(login, generatedPassword, name, firstname, birthDate, email, phone, 0);
-                    dao.addUser(user);
-                     messages.put("register", "U bent met succes geregistreerd!");
+                    dao.addUser(user); 
+                   
+                   
+                    messages.put("register", "U bent met succes geregistreerd!");
                 } else {
                     System.out.println("user allready exists");
-                     messages.put("user", "Er bestaat al een user met dit email adres");
+                    messages.put("user", "Er bestaat al een user met dit email adres");
                 }
             }
-request.setAttribute("messages", messages);
- RequestDispatcher disp = request.getRequestDispatcher(page);
-   if (disp != null) {
+            request.setAttribute("messages", messages);
+            RequestDispatcher disp = request.getRequestDispatcher(page);
+            if (disp != null) {
                 disp.forward(request, response);
             }
             doGet(request, response);
