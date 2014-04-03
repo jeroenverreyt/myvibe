@@ -15,7 +15,7 @@ public class UserDao {
     private String password;
     private static final String GET_QUERY = "select UserId, UserLogin, UserPass, UserName, UserFirstName, UserBirthdate, UserEmail, UserPhone, UserCredits from user";
     private static final String UPDATE_QUERY = "insert into user (UserLogin, UserPass, UserName, UserFirstName, UserBirthdate, UserEmail, UserPhone, UserCredits) values (?,?,?,?,?,?,?,?)";
-    
+
     static Connection currentCon = null;
     static ResultSet rs = null;
 
@@ -41,7 +41,7 @@ public class UserDao {
             List<UserBean> users = new ArrayList<UserBean>();
             ResultSet rs = stmt.executeQuery(GET_QUERY);
             while (rs.next()) {
-                UserBean user = new UserBean(rs.getInt(1),rs.getString(2),
+                UserBean user = new UserBean(rs.getInt(1), rs.getString(2),
                         rs.getString(3),
                         rs.getString(4),
                         rs.getString(5),
@@ -87,51 +87,57 @@ public class UserDao {
             stmt.executeUpdate();
         }
     }
-    
-    public void changePhone(String newPhone, int id) throws SQLException{
+
+    public void changePhone(String newPhone, int id) throws SQLException {
+
         
-        String change_phone_query = "UPDATE user SET UserPhone= " + newPhone + " WHERE UserId='" + id + "';";
+        String change_phone_query = "UPDATE user SET UserPhone= ? WHERE UserId= ? ;";
         System.out.println(change_phone_query);
         try (Connection con = getConnection();
                 PreparedStatement stmt = con.prepareStatement(change_phone_query)) {
-                  
-                  stmt.executeUpdate();
+            stmt.setString(1, newPhone);
+            stmt.setInt(2, id);
+            stmt.executeUpdate();
         }
     }
-      public void deleteUser(int id) throws SQLException{
+
+    public void deleteUser(int id) throws SQLException {
+
+       String delete_user_query = "DELETE FROM user WHERE UserId= ?;";
         
-        String delete_user_query = "DELETE FROM user WHERE UserId='" + id + "';";
-           System.out.println(delete_user_query);
+        System.out.println(delete_user_query);
         try (Connection con = getConnection();
                 PreparedStatement stmt = con.prepareStatement(delete_user_query)) {
-             
-                  stmt.executeUpdate();
-                   con.commit();
+                 stmt.setInt(1, id);
+            stmt.executeUpdate();
+            con.commit();
         }
     }
-    
-    
-    public void changePassword(String newPassword, int id) throws SQLException{
-        
-        String change_phone_query = "UPDATE user SET UserPass= '" + newPassword + "' WHERE UserId='" + id + "';";
+
+    public void changePassword(String newPassword, int id) throws SQLException {
+       
+        String change_phone_query = "UPDATE user SET UserPass= ? WHERE UserId= ? ";
         System.out.println(change_phone_query);
         try (Connection con = getConnection();
                 PreparedStatement stmt = con.prepareStatement(change_phone_query)) {
-                  
-                  stmt.executeUpdate();
+            stmt.setString(1, newPassword);
+            stmt.setInt(2, id);
+            stmt.executeUpdate();
         }
     }
-    
-       public void buyCredits(int newCredits, int id) throws SQLException{
-        
-        String buy_credits_query = "UPDATE user SET UserCredits= '" + newCredits + "' WHERE UserId='" + id + "';";
+
+    public void buyCredits(int newCredits, int id) throws SQLException {
+
+        String buy_credits_query = "UPDATE user SET UserCredits= ? WHERE UserId= ?";
         System.out.println(buy_credits_query);
         try (Connection con = getConnection();
                 PreparedStatement stmt = con.prepareStatement(buy_credits_query)) {
-                  
-                  stmt.executeUpdate();
+             stmt.setInt(1, newCredits);
+            stmt.setInt(2, id);
+            stmt.executeUpdate();
         }
     }
+
     private Connection getConnection() throws SQLException {
         return DriverManager.getConnection(url, user, password);
     }
@@ -144,10 +150,10 @@ public class UserDao {
         String email = bean.getEmail();
         String passwordToHash = bean.getPass();
         SecurePassword s = new SecurePassword();
-        
+
         String password = s.md5password(passwordToHash);
-        String searchQuery =
-                "select * from user where UserEmail='"
+        String searchQuery
+                = "select * from user where UserEmail='"
                 + email
                 + "' AND UserPass='"
                 + password

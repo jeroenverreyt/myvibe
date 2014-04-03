@@ -87,12 +87,10 @@ public class UserServlet extends HttpServlet {
                 messages.put("email", "Beide email adressen moeten gelijk zijn!");
             } else {
                 if (!userExists) {
-                    if(artist.equals("on")){
-                        // make artist
-                    }else{
+                   
                     UserBean user = new UserBean(login, generatedPassword, name, firstname, birthDate, email, phone, 0);
                     dao.addUser(user); 
-                    }
+                   
                    
                     messages.put("register", "U bent met succes geregistreerd!");
                 } else {
