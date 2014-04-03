@@ -30,8 +30,9 @@ import javax.servlet.jsp.jstl.core.LoopTagStatus;
     @WebInitParam(name = "page", value = "/download.jsp"),})
 public class TrackDownloadServlet extends HttpServlet {
 
-    private TrackDao dao;
+    private TrackDao trackdao;
     private TrackBean track;
+    private UserDao userdao;
     private String page;
     private String tracknr;
 
@@ -46,11 +47,11 @@ public class TrackDownloadServlet extends HttpServlet {
                     || page == null) {
                 throw new ServletException("Init parameter missing");
             }
-            dao = new TrackDao();
-            dao.setDriver(driver);
-            dao.setUser(user);
-            dao.setPassword(password);
-            dao.setUrl(url);
+            trackdao = new TrackDao();
+            trackdao.setDriver(driver);
+            trackdao.setUser(user);
+            trackdao.setPassword(password);
+            trackdao.setUrl(url);
         } catch (ClassNotFoundException ex) {
             throw new ServletException("Unable to load driver", ex);
         }
@@ -62,7 +63,7 @@ public class TrackDownloadServlet extends HttpServlet {
         tracknr = request.getParameter("tracknr");
         System.out.println(tracknr);
         try {
-            track = dao.getTrackByID(tracknr);
+            track = trackdao.getTrackByID(tracknr);
         } catch (SQLException ex) {
             Logger.getLogger(TrackDownloadServlet.class.getName()).log(Level.SEVERE, null, ex);
         }

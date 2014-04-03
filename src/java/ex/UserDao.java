@@ -109,6 +109,17 @@ public class UserDao {
         }
     }
     
+    public void changeCredits(int credits, String email) throws SQLException{
+        
+        String change_phone_query = "UPDATE user SET UserCredits = (UserCredits +'" + credits + ")' WHERE UserEmail='" + email + "';";
+        System.out.println(change_phone_query);
+        try (Connection con = getConnection();
+                PreparedStatement stmt = con.prepareStatement(change_phone_query)) {
+                  
+                  stmt.executeUpdate();
+        }
+    }
+    
     private Connection getConnection() throws SQLException {
         return DriverManager.getConnection(url, user, password);
     }
