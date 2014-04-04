@@ -60,12 +60,12 @@ public class ArtistDao {
     }
     
        public boolean artistExists(String email) throws SQLException {
-        String query = "select * from artist where ArtistEmail='" + email + "';";
+        String query = "select * from artist where ArtistEmail= ? ;";
 
-        try (Connection con = getConnection(); // Java 7 !!!
-                Statement stmt = con.createStatement()) {
-           
-            ResultSet rs = stmt.executeQuery(query);
+        try (Connection con = getConnection();
+                PreparedStatement stmt = con.prepareStatement(query)) {
+            stmt.setString(1, email);
+            ResultSet rs = stmt.executeQuery();
 
             if (!rs.next()) {
                 System.out.println("no data");

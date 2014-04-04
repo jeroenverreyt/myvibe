@@ -56,12 +56,12 @@ public class UserDao {
     }
 
     public boolean userExists(String email) throws SQLException {
-        String query = "select * from user where UserEmail='" + email + "';";
+        String query = "select * from user where UserEmail= ? ;";
 
-        try (Connection con = getConnection(); // Java 7 !!!
-                Statement stmt = con.createStatement()) {
-            List<UserBean> users = new ArrayList<UserBean>();
-            ResultSet rs = stmt.executeQuery(query);
+        try (Connection con = getConnection();
+                PreparedStatement stmt = con.prepareStatement(query)) {
+            stmt.setString(1, email);
+            ResultSet rs = stmt.executeQuery();
 
             if (!rs.next()) {
                 System.out.println("no data");
@@ -88,7 +88,6 @@ public class UserDao {
     }
 
     public void changePhone(String newPhone, int id) throws SQLException {
-
 
         String change_phone_query = "UPDATE user SET UserPhone= ? WHERE UserId= ? ;";
         System.out.println(change_phone_query);
@@ -127,11 +126,12 @@ public class UserDao {
 
     public void changeCredits(int credits, String email) throws SQLException {
 
-        String change_phone_query = "UPDATE user SET UserCredits = (UserCredits +'" + credits + ")' WHERE UserEmail='" + email + "';";
+        String change_phone_query = "UPDATE user SET UserCredits = (UserCredits + ? )' WHERE UserEmail= ?;";
         System.out.println(change_phone_query);
         try (Connection con = getConnection();
                 PreparedStatement stmt = con.prepareStatement(change_phone_query)) {
-
+                stmt.setInt(1, credits);
+                stmt.setString(2, email);
             stmt.executeUpdate();
         }
     }
