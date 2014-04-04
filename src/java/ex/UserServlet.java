@@ -7,6 +7,8 @@ import java.security.MessageDigest;
 import java.sql.*;
 import java.util.*;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.servlet.*;
 import javax.servlet.annotation.*;
@@ -68,33 +70,44 @@ public class UserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
 
-        try {
-            Map<String, String> messages = new HashMap<String, String>();
+        Map<String, String> messages = new HashMap<String, String>();
 
-            boolean userExists;
-            String isartist = request.getParameter("CheckBoxStageName");
-            String artistname = request.getParameter("inputStagename");
-            String login = request.getParameter("inputUsername");
-            String pass = request.getParameter("inputPassword");
-            String name = request.getParameter("inputName");
-            String firstname = request.getParameter("inputFirstName");
-            String email = request.getParameter("inputEmail");
-            String confEmail = request.getParameter("inputConfEmail");
-            int phone = Integer.parseInt(request.getParameter("inputPhonenumber"));
-            String day = request.getParameter("day");
-            String month = request.getParameter("month");
-            String year = request.getParameter("year");
-            String birthDate = year + "-" + month + "-" + day;
-            userExists = dao.userExists(email);
-            SecurePassword s = new SecurePassword();
-            String generatedPassword = s.md5password(pass);
-            System.out.println(isartist + " test ");
-            System.out.println(confEmail + "  " + email);
-            if (!email.equals(confEmail)) {
-                System.out.println("Email addresses are not equal");
-                messages.put("email", "Beide email adressen moeten gelijk zijn!");
-            } else {
-                if (isartist == null) {
+        try{
+            
+        
+        boolean userExists;
+        String isartist = request.getParameter("CheckBoxStageName");
+        String artistname = request.getParameter("inputStagename");
+        String login = request.getParameter("inputUsername");
+        String pass = request.getParameter("inputPassword");
+        String name = request.getParameter("inputName");
+        String firstname = request.getParameter("inputFirstName");
+        String email = request.getParameter("inputEmail");
+        String confEmail = request.getParameter("inputConfEmail");
+        int phone = Integer.parseInt(request.getParameter("inputPhonenumber"));
+        String day = request.getParameter("day");
+        String month = request.getParameter("month");
+        String year = request.getParameter("year");
+        String birthDate = year + "-" + month + "-" + day;
+        userExists = dao.userExists(email);
+        SecurePassword s = new SecurePassword();
+        String generatedPassword = s.md5password(pass);
+        System.out.println(isartist + " test ");
+        System.out.println(confEmail + "  " + email);
+
+        if (isartist == null) {
+            isartist = "user";
+        } else if (isartist.equals("on")) {
+            isartist = "artist";
+        }
+
+        if (!email.equals(confEmail)) {
+            System.out.println("Email addresses are not equal");
+            messages.put("email", "Beide email adressen moeten gelijk zijn!");
+        } else {
+            switch (isartist) {
+                case "user":
+                    //it's a user!
                     if (!userExists) {
 
                         UserBean user = new UserBean(login, generatedPassword, name, firstname, birthDate, email, phone, 0);
@@ -105,31 +118,39 @@ public class UserServlet extends HttpServlet {
                         System.out.println("user allready exists");
                         messages.put("user", "Er bestaat al een user met dit email adres");
                     }
-                } else {
-                   boolean artistExists = artistdao.artistExists(email);
- //public ArtistBean(String login, String pass, String name, String firstName, String birthDate, String email, int phone, String artistName) {
+
+                    break;
+
+                case "artist":
+                    //it's an artist!
+                    boolean artistExists = artistdao.artistExists(email);
+                   
                     if (!artistExists) {
+                        
+                            ArtistBean artist = new ArtistBean(login, generatedPassword, name, firstname, birthDate, email, phone, artistname);
+                            artistdao.addArtist(artist);
 
-                       ArtistBean artist = new ArtistBean(login, generatedPassword, name, firstname, birthDate, email, phone, artistname);
-                    artistdao.addArtist(artist);
-
-                        messages.put("register", "U bent met succes geregistreerd!");
+                            messages.put("register", "U bent met succes geregistreerd!");
+                        
                     } else {
                         System.out.println("artist allready exists");
                         messages.put("user", "Er bestaat al een artist met dit email adres");
                     }
-                  
-                }
-            }
 
-            request.setAttribute("messages", messages);
-            RequestDispatcher disp = request.getRequestDispatcher(page);
-            if (disp != null) {
-                disp.forward(request, response);
+                    break;
             }
-            doGet(request, response);
-        } catch (SQLException ex) {
-            throw new ServletException(ex);
         }
+
+                }catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+
+        request.setAttribute("messages", messages);
+        RequestDispatcher disp = request.getRequestDispatcher(page);
+        if (disp != null) {
+            disp.forward(request, response);
+        }
+        doGet(request, response);
     }
+
 }
