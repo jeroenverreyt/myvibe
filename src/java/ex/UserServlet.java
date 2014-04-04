@@ -45,7 +45,7 @@ public class UserServlet extends HttpServlet {
             artistdao.setUser(user);
             artistdao.setPassword(password);
             artistdao.setUrl(url);
-            
+
         } catch (ClassNotFoundException ex) {
             throw new ServletException("Unable to load driver", ex);
         }
@@ -105,11 +105,20 @@ public class UserServlet extends HttpServlet {
                         System.out.println("user allready exists");
                         messages.put("user", "Er bestaat al een user met dit email adres");
                     }
-                }else{
+                } else {
+                   boolean artistExists = artistdao.artistExists(email);
  //public ArtistBean(String login, String pass, String name, String firstName, String birthDate, String email, int phone, String artistName) {
+                    if (!artistExists) {
 
-                    ArtistBean artist = new ArtistBean(login, generatedPassword, name, firstname, birthDate, email, phone, artistname);
+                       ArtistBean artist = new ArtistBean(login, generatedPassword, name, firstname, birthDate, email, phone, artistname);
                     artistdao.addArtist(artist);
+
+                        messages.put("register", "U bent met succes geregistreerd!");
+                    } else {
+                        System.out.println("artist allready exists");
+                        messages.put("user", "Er bestaat al een artist met dit email adres");
+                    }
+                  
                 }
             }
 

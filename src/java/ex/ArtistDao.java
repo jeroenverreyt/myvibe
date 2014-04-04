@@ -58,7 +58,23 @@ public class ArtistDao {
             stmt.executeUpdate();
         }
     }
-          
+    
+       public boolean artistExists(String email) throws SQLException {
+        String query = "select * from artist where ArtistEmail='" + email + "';";
+
+        try (Connection con = getConnection(); // Java 7 !!!
+                Statement stmt = con.createStatement()) {
+           
+            ResultSet rs = stmt.executeQuery(query);
+
+            if (!rs.next()) {
+                System.out.println("no data");
+                return false;
+            }
+
+            return true;
+        }
+    }
     private Connection getConnection() throws SQLException {
         return DriverManager.getConnection(url, user, password);
     }
