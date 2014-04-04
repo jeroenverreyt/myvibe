@@ -21,6 +21,7 @@ import javax.servlet.http.*;
 public class UserServlet extends HttpServlet {
 
     private UserDao dao;
+    private ArtistDao artistdao;
     private String page;
 
     public void init() throws ServletException {
@@ -39,6 +40,12 @@ public class UserServlet extends HttpServlet {
             dao.setUser(user);
             dao.setPassword(password);
             dao.setUrl(url);
+            artistdao = new ArtistDao();
+            artistdao.setDriver(driver);
+            artistdao.setUser(user);
+            artistdao.setPassword(password);
+            artistdao.setUrl(url);
+            
         } catch (ClassNotFoundException ex) {
             throw new ServletException("Unable to load driver", ex);
         }
@@ -65,7 +72,8 @@ public class UserServlet extends HttpServlet {
             Map<String, String> messages = new HashMap<String, String>();
 
             boolean userExists;
-            String artist = request.getParameter("CheckBoxStageName");
+            String isartist = request.getParameter("CheckBoxStageName");
+            String artistname = request.getParameter("inputStagename");
             String login = request.getParameter("inputUsername");
             String pass = request.getParameter("inputPassword");
             String name = request.getParameter("inputName");
@@ -80,24 +88,31 @@ public class UserServlet extends HttpServlet {
             userExists = dao.userExists(email);
             SecurePassword s = new SecurePassword();
             String generatedPassword = s.md5password(pass);
-            System.out.println(artist);
+            System.out.println(isartist + " test ");
             System.out.println(confEmail + "  " + email);
             if (!email.equals(confEmail)) {
                 System.out.println("Email addresses are not equal");
                 messages.put("email", "Beide email adressen moeten gelijk zijn!");
             } else {
-                if (!userExists) {
-                   
-                    UserBean user = new UserBean(login, generatedPassword, name, firstname, birthDate, email, phone, 0);
-                    dao.addUser(user); 
-                   
-                   
-                    messages.put("register", "U bent met succes geregistreerd!");
-                } else {
-                    System.out.println("user allready exists");
-                    messages.put("user", "Er bestaat al een user met dit email adres");
+                if (isartist == null) {
+                    if (!userExists) {
+
+                        UserBean user = new UserBean(login, generatedPassword, name, firstname, birthDate, email, phone, 0);
+                        dao.addUser(user);
+
+                        messages.put("register", "U bent met succes geregistreerd!");
+                    } else {
+                        System.out.println("user allready exists");
+                        messages.put("user", "Er bestaat al een user met dit email adres");
+                    }
+                }else{
+ //public ArtistBean(String login, String pass, String name, String firstName, String birthDate, String email, int phone, String artistName) {
+
+                    ArtistBean artist = new ArtistBean(login, generatedPassword, name, firstname, birthDate, email, phone, artistname);
+                    artistdao.addArtist(artist);
                 }
             }
+
             request.setAttribute("messages", messages);
             RequestDispatcher disp = request.getRequestDispatcher(page);
             if (disp != null) {
