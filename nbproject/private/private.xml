@@ -5,10 +5,11 @@
         <group>
             <file>file:/C:/Users/Keris/MyVibe/web/index.jsp</file>
             <file>file:/C:/Users/Keris/MyVibe/src/java/ex/UserDao.java</file>
-            <file>file:/C:/Users/Keris/MyVibe/src/java/ex/UserBean.java</file>
-            <file>file:/C:/Users/Keris/MyVibe/web/download.jsp</file>
-            <file>file:/C:/Users/Keris/MyVibe/src/java/ex/LogIn.java</file>
-            <file>file:/C:/Users/Keris/MyVibe/src/java/ex/ChangeProfile.java</file>
+            <file>file:/C:/Users/Keris/MyVibe/src/java/ex/DeleteAccount.java</file>
+            <file>file:/C:/Users/Keris/MyVibe/web/credits.jsp</file>
+            <file>file:/C:/Users/Keris/MyVibe/src/java/ex/ArtistBean.java</file>
+            <file>file:/C:/Users/Keris/MyVibe/src/java/ex/UserServlet.java</file>
+            <file>file:/C:/Users/Keris/MyVibe/src/java/ex/ArtistDao.java</file>
         </group>
     </open-files>
 </project-private>
