@@ -12,7 +12,8 @@
     </head>
     <body>
         <h1>Overzicht Velden</h1>
-        
+        <p class="alert alert-danger" ${feedback.error == null ? "style='display:none;'" : "style='display:inline-block'"}>${feedback.error}</p> 
+        <p class="alert alert-success" ${feedback.success == null ? "style='display:none;'" : "style='display:inline-block'"}>${feedback.success}</p> 
         <form action="ReportServlet" method="post" class="form-horizontal"> 
                
            

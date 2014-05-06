@@ -75,76 +75,85 @@ public class ReportServlet extends HttpServlet {
             HttpServletResponse response) throws ServletException, IOException {
         String[] selectedFields = request.getParameterValues("selectFields");
         java.util.List<String> data = null;
+        Map<String, String> feedback = new HashMap<String, String>();
+        if (selectedFields != null) {
+            if (request.getParameter("excel") != null) {
 
-        if (request.getParameter("excel") != null) {
+                try {
+                    WritableWorkbook workbook = Workbook.createWorkbook(new File("Report.xls"));
+                    WritableSheet sheet = workbook.createSheet("First Sheet", 0);
+                    WritableFont arial15font = new WritableFont(WritableFont.ARIAL, 15, WritableFont.BOLD);
+                    WritableCellFormat arial15format = new WritableCellFormat(arial15font);
+                    int row = 0;
+                    int column = 0;
 
-            try {
-                WritableWorkbook workbook = Workbook.createWorkbook(new File("Report.xls"));
-                WritableSheet sheet = workbook.createSheet("First Sheet", 0);
-                WritableFont arial15font = new WritableFont(WritableFont.ARIAL, 15, WritableFont.BOLD);
-                WritableCellFormat arial15format = new WritableCellFormat(arial15font);
-                int row = 0;
-                int column = 0;
+                    for (String item : selectedFields) {
+                        row = 0;
+                        String tablename = dao.getTableName(item);
+                        System.out.println(item);
+                        System.out.println(tablename);
+                        data = dao.getData(item, tablename);
+                        Label lblTable = new Label(column, row, item, arial15format);
+                        sheet.addCell(lblTable);
+                        column++;
 
-                for (String item : selectedFields) {
-                    row = 0;
-                    String tablename = dao.getTableName(item);
-                    System.out.println(item);
-                    System.out.println(tablename);
-                    data = dao.getData(item, tablename);
-                    Label lblTable = new Label(column, row, item, arial15format);
-                    sheet.addCell(lblTable);
-                    column++;
+                        for (String d : data) {
+                            row++;
+                            System.out.println("DATA " + d);
+                            Label lblData = new Label(column - 1, row, d);
+                            sheet.addCell(lblData);
 
-                    for (String d : data) {
-                        row++;
-                        System.out.println("DATA " + d);
-                        Label lblData = new Label(column - 1, row, d);
-                        sheet.addCell(lblData);
-
+                        }
                     }
+
+                    expandColumn(sheet, 4);
+
+                    workbook.write();
+                    workbook.close();
+                    feedback.put("success", "Uw document is aangemaakt");
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
 
-                expandColumn(sheet, 4);
+            } else if (request.getParameter("pdf") != null) {
 
-                workbook.write();
-                workbook.close();
+                try {
+                    Document document = new Document();
+                    PdfWriter.getInstance(document, new FileOutputStream("Report.pdf"));
 
-            } catch (Exception e) {
+                    document.open();
+
+                    com.itextpdf.text.Font font1 = new com.itextpdf.text.Font(com.itextpdf.text.Font.FontFamily.COURIER, 15);
+                    com.itextpdf.text.Font font2 = new com.itextpdf.text.Font(com.itextpdf.text.Font.FontFamily.COURIER, 18, com.itextpdf.text.Font.BOLD | com.itextpdf.text.Font.UNDERLINE);
+
+                    for (String item : selectedFields) {
+
+                        String tablename = dao.getTableName(item);
+                        data = dao.getData(item, tablename);
+                        document.add(new Phrase(item, font2));
+
+                        for (String d : data) {
+
+                            com.itextpdf.text.List list = new com.itextpdf.text.List(com.itextpdf.text.List.UNORDERED);
+                            list.add(new ListItem(d, font1));
+                            document.add(list);
+                        }
+                    }
+
+                    document.close();
+                    feedback.put("success", "Uw document is aangemaakt");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
             }
 
-        } else if (request.getParameter("pdf") != null) {
-
-            try {
-                Document document = new Document();
-                PdfWriter.getInstance(document, new FileOutputStream("Report.pdf"));
-
-                document.open();
-
-                com.itextpdf.text.Font font1 = new com.itextpdf.text.Font(com.itextpdf.text.Font.FontFamily.COURIER, 15);
-                com.itextpdf.text.Font font2 = new com.itextpdf.text.Font(com.itextpdf.text.Font.FontFamily.COURIER, 18, com.itextpdf.text.Font.BOLD | com.itextpdf.text.Font.UNDERLINE);
-
-                for (String item : selectedFields) {
-
-                    String tablename = dao.getTableName(item);
-                    data = dao.getData(item, tablename);
-                    document.add(new Phrase(item, font2));
-
-                    for (String d : data) {
-
-                        com.itextpdf.text.List list = new com.itextpdf.text.List(com.itextpdf.text.List.UNORDERED);
-                        list.add(new ListItem(d, font1));
-                        document.add(list);
-                    }
-                }
-
-                document.close();
-            } catch (Exception e) {
-
-            }
+        } else {
+            feedback.put("error", "Gelieve minstens 1 veld te selecteren");
 
         }
+
+        request.setAttribute("feedback", feedback);
         doGet(request, response);
     }
 
