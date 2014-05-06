@@ -25,7 +25,9 @@
             </c:forEach>
                 
         </select>
-             <button type="submit" class="btn btn-danger">Maak rapporten</button>
+             <button type="submit" id="excel" name = "excel" class="btn btn-danger">Excel</button>
+              <button type="submit" id="pdf" name="pdf" class="btn btn-danger">Pdf</button>
+             
  </form>
     </body>
 </html>

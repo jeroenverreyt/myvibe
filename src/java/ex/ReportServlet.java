@@ -74,75 +74,78 @@ public class ReportServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
         String[] selectedFields = request.getParameterValues("selectFields");
-
-        //EXCEL
         java.util.List<String> data = null;
-        WritableWorkbook workbook = Workbook.createWorkbook(new File("Report.xls"));
-        WritableSheet sheet = workbook.createSheet("First Sheet", 0);
-        WritableFont arial15font = new WritableFont(WritableFont.ARIAL, 15, WritableFont.BOLD);
-        WritableCellFormat arial15format = new WritableCellFormat(arial15font);
-        int row = 0;
-        int column = 0;
-        try {
-            for (String item : selectedFields) {
-                row = 0;
-                String tablename = dao.getTableName(item);
-                System.out.println(item);
-                System.out.println(tablename);
-                data = dao.getData(item, tablename);
-                Label lblTable = new Label(column, row, item, arial15format);
-                sheet.addCell(lblTable);
-                column++;
 
-                for (String d : data) {
-                    row++;
-                    System.out.println("DATA " + d);
-                    Label lblData = new Label(column - 1, row, d);
-                    sheet.addCell(lblData);
+        if (request.getParameter("excel") != null) {
 
+            try {
+                WritableWorkbook workbook = Workbook.createWorkbook(new File("Report.xls"));
+                WritableSheet sheet = workbook.createSheet("First Sheet", 0);
+                WritableFont arial15font = new WritableFont(WritableFont.ARIAL, 15, WritableFont.BOLD);
+                WritableCellFormat arial15format = new WritableCellFormat(arial15font);
+                int row = 0;
+                int column = 0;
+
+                for (String item : selectedFields) {
+                    row = 0;
+                    String tablename = dao.getTableName(item);
+                    System.out.println(item);
+                    System.out.println(tablename);
+                    data = dao.getData(item, tablename);
+                    Label lblTable = new Label(column, row, item, arial15format);
+                    sheet.addCell(lblTable);
+                    column++;
+
+                    for (String d : data) {
+                        row++;
+                        System.out.println("DATA " + d);
+                        Label lblData = new Label(column - 1, row, d);
+                        sheet.addCell(lblData);
+
+                    }
                 }
+
+                expandColumn(sheet, 4);
+
+                workbook.write();
+                workbook.close();
+
+            } catch (Exception e) {
+
             }
 
-            expandColumn(sheet, 4);
+        } else if (request.getParameter("pdf") != null) {
 
-            workbook.write();
-            workbook.close();
+            try {
+                Document document = new Document();
+                PdfWriter.getInstance(document, new FileOutputStream("Report.pdf"));
 
-            //PDF
-            Document document = new Document();
-            PdfWriter.getInstance(document, new FileOutputStream("Report.pdf"));
+                document.open();
 
-            document.open();
+                com.itextpdf.text.Font font1 = new com.itextpdf.text.Font(com.itextpdf.text.Font.FontFamily.COURIER, 15);
+                com.itextpdf.text.Font font2 = new com.itextpdf.text.Font(com.itextpdf.text.Font.FontFamily.COURIER, 18, com.itextpdf.text.Font.BOLD | com.itextpdf.text.Font.UNDERLINE);
 
-            com.itextpdf.text.Font font1 = new com.itextpdf.text.Font(com.itextpdf.text.Font.FontFamily.COURIER, 15);
-            com.itextpdf.text.Font font2 = new com.itextpdf.text.Font(com.itextpdf.text.Font.FontFamily.COURIER, 18, com.itextpdf.text.Font.BOLD | com.itextpdf.text.Font.UNDERLINE);
+                for (String item : selectedFields) {
 
-            for (String item : selectedFields) {
+                    String tablename = dao.getTableName(item);
+                    data = dao.getData(item, tablename);
+                    document.add(new Phrase(item, font2));
 
-                String tablename = dao.getTableName(item);
-                data = dao.getData(item, tablename);
-                document.add(new Phrase(item, font2));
+                    for (String d : data) {
 
-                for (String d : data) {
-
-                    com.itextpdf.text.List list = new com.itextpdf.text.List(com.itextpdf.text.List.UNORDERED);
-                    list.add(new ListItem(d, font1));
-                    document.add(list);
+                        com.itextpdf.text.List list = new com.itextpdf.text.List(com.itextpdf.text.List.UNORDERED);
+                        list.add(new ListItem(d, font1));
+                        document.add(list);
+                    }
                 }
+
+                document.close();
+            } catch (Exception e) {
+
             }
 
-            document.close();
-
-        } catch (SQLException ex) {
-            Logger.getLogger(ReportServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (WriteException ex) {
-            Logger.getLogger(ReportServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (DocumentException ex) {
-            Logger.getLogger(ReportServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-
         doGet(request, response);
-
     }
 
     private void expandColumn(WritableSheet sheet, int amountOfColumns) {
