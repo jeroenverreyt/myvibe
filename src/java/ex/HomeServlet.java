@@ -75,17 +75,23 @@ public class HomeServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try {
             List<TrackBean> topTrackUploaded = dao.getTopUploaded();
-            
-            ArrayList list = new ArrayList();
-            
+            List<TrackBean> mostRecent = dao.getMostRecent();
+            ArrayList topUpload = new ArrayList();
+            ArrayList topRecent = new ArrayList();
             for (TrackBean t : topTrackUploaded) {
                 Map<String, String> track = new HashMap<String, String>();
                 track.put("name", t.getTrackname());
                 track.put("artist", daoArtist.getArtistName(t.getArtist_artistid()));
-               list.add(track);
+               topUpload.add(track);
             }
-            
-            request.setAttribute("track", list);
+              for (TrackBean t : mostRecent) {
+                Map<String, String> track = new HashMap<String, String>();
+                track.put("name", t.getTrackname());
+                track.put("artist", daoArtist.getArtistName(t.getArtist_artistid()));
+               topRecent.add(track);
+            }
+            request.setAttribute("topUpload", topUpload);
+            request.setAttribute("topRecent", topRecent);
             //request.setAttribute("topTrackUploaded", topTrackUploaded);
             RequestDispatcher disp = request.getRequestDispatcher(page);
             if (disp != null) {
