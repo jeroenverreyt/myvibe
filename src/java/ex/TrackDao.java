@@ -28,6 +28,7 @@ public class TrackDao {
     private static final String ADD_QUERY = "INSERT INTO track (TrackName, TrackPrice, TrackAudioFile,Artist_ArtistID) values (?, ?, ?, 2)";
     private static final String GET_TOP10_UPLOADED = "SELECT TrackID, TrackName, TrackReleaseDate, TrackPrice, Artist_ArtistID FROM track order by TrackCounter desc LIMIT 10";
     private static final String GET_MOST_RECENT = "SELECT TrackID, TrackName, TrackReleaseDate, TrackPrice, Artist_ArtistID FROM track order by TrackReleaseDate desc Limit 10;";
+
     static Connection currentCon = null;
     static ResultSet rs = null;
 
@@ -53,7 +54,7 @@ public class TrackDao {
             List<TrackBean> tracks = new ArrayList<TrackBean>();
             ResultSet rs = stmt.executeQuery(GET_QUERY);
             while (rs.next()) {
-                TrackBean track = new TrackBean(rs.getInt(1), 
+                TrackBean track = new TrackBean(rs.getInt(1),
                         rs.getString(2),
                         rs.getString(3),
                         rs.getInt(4),
@@ -64,13 +65,44 @@ public class TrackDao {
         }
     }
 
+    public String getTrackName(int trackId) throws SQLException {
+        try (Connection con = getConnection(); // Java 7 !!!
+                Statement stmt = con.createStatement()) {
+            List<TrackBean> tracks = new ArrayList<TrackBean>();
+            PreparedStatement statement = con.prepareStatement(GETBYID_QUERY);
+            statement.setInt(1, trackId);
+            ResultSet rs = statement.executeQuery();
+            String trackname = "";
+            while (rs.next()) {
+                trackname = rs.getString(1);
+
+            }
+            return trackname;
+        }
+    }
+      public int getTrackArtistId(int trackId) throws SQLException {
+        try (Connection con = getConnection(); // Java 7 !!!
+                Statement stmt = con.createStatement()) {
+            List<TrackBean> tracks = new ArrayList<TrackBean>();
+            PreparedStatement statement = con.prepareStatement(GETBYID_QUERY);
+            statement.setInt(1, trackId);
+            ResultSet rs = statement.executeQuery();
+            int artistId=0;
+            while (rs.next()) {
+                artistId = rs.getInt(4);
+
+            }
+            return artistId;
+        }
+    }
+
     public List<TrackBean> getTopUploaded() throws SQLException {
         try (Connection con = getConnection(); // Java 7 !!!
                 Statement stmt = con.createStatement()) {
             List<TrackBean> topTracksUploaded = new ArrayList<TrackBean>();
             ResultSet rs = stmt.executeQuery(GET_TOP10_UPLOADED);
             while (rs.next()) {
-                TrackBean track = new TrackBean(rs.getInt(1), 
+                TrackBean track = new TrackBean(rs.getInt(1),
                         rs.getString(2),
                         rs.getString(3),
                         rs.getInt(4),
@@ -80,13 +112,14 @@ public class TrackDao {
             return topTracksUploaded;
         }
     }
-     public List<TrackBean> getMostRecent() throws SQLException {
+
+    public List<TrackBean> getMostRecent() throws SQLException {
         try (Connection con = getConnection(); // Java 7 !!!
                 Statement stmt = con.createStatement()) {
             List<TrackBean> mostRecent = new ArrayList<TrackBean>();
             ResultSet rs = stmt.executeQuery(GET_MOST_RECENT);
             while (rs.next()) {
-                TrackBean track = new TrackBean(rs.getInt(1), 
+                TrackBean track = new TrackBean(rs.getInt(1),
                         rs.getString(2),
                         rs.getString(3),
                         rs.getInt(4),
@@ -96,6 +129,7 @@ public class TrackDao {
             return mostRecent;
         }
     }
+
     public TrackBean getTrackByID(String tracknr) throws SQLException {
         try (Connection con = getConnection(); // Java 7 !!!
                 Statement stmt = con.createStatement()) {

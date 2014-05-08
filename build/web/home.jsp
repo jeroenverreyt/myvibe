@@ -48,16 +48,9 @@
                 <div class="span4">
                     <h5><i class="icon-music"></i> Mijn aangekochte nummers</h5>
                     <ul>
-                        <li>Artiest - Titel</li>
-                        <li>Artiest - Titel</li>
-                        <li>Artiest - Titel</li>
-                        <li>Artiest - Titel</li>
-                        <li>Artiest - Titel</li>
-                        <li>Artiest - Titel</li>
-                        <li>Artiest - Titel</li>
-                        <li>Artiest - Titel</li>
-                        <li>Artiest - Titel</li>
-                        <li>Artiest - Titel</li>
+                       <c:forEach  var="track" items="${userTracks}">
+                            <li> ${track.artist} - ${track.name} </li> 
+                         </c:forEach>
                     </ul>
                     <a href="#">Bekijk mijn afspeellijst</a>
                 </div>

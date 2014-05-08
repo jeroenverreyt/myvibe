@@ -18,6 +18,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -31,6 +32,7 @@ import javax.servlet.http.HttpServletResponse;
     @WebInitParam(name = "page", value = "/home.jsp"),})
 public class HomeServlet extends HttpServlet {
 
+    private TracksperuserDao daoTracksPerUser;
     private TrackDao dao;
     private ArtistDao daoArtist;
     private String page;
@@ -48,14 +50,20 @@ public class HomeServlet extends HttpServlet {
             }
             dao = new TrackDao();
             daoArtist = new ArtistDao();
+            daoTracksPerUser = new TracksperuserDao();
             dao.setDriver(driver);
             daoArtist.setDriver(driver);
+            daoTracksPerUser.setDriver(driver);
             dao.setUser(user);
+            daoTracksPerUser.setUser(user);
             daoArtist.setUser(user);
             dao.setPassword(password);
             daoArtist.setPassword(password);
+            daoTracksPerUser.setPassword(password);
             dao.setUrl(url);
             daoArtist.setUrl(url);
+            daoTracksPerUser.setUrl(url);
+
         } catch (ClassNotFoundException ex) {
             throw new ServletException("Unable to load driver", ex);
         }
@@ -74,25 +82,41 @@ public class HomeServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try {
+            HttpSession session = request.getSession();
+            UserBean currentUser = (UserBean) session.getAttribute("currentSessionUser");
+
+            int currentId = currentUser.getId();
             List<TrackBean> topTrackUploaded = dao.getTopUploaded();
             List<TrackBean> mostRecent = dao.getMostRecent();
+            List<TracksperuserBean> tracksperuser = daoTracksPerUser.getTracks(currentId);
+            System.out.println("currentId: " + currentId);
             ArrayList topUpload = new ArrayList();
             ArrayList topRecent = new ArrayList();
+            ArrayList userTracks = new ArrayList();
+
             for (TrackBean t : topTrackUploaded) {
                 Map<String, String> track = new HashMap<String, String>();
                 track.put("name", t.getTrackname());
                 track.put("artist", daoArtist.getArtistName(t.getArtist_artistid()));
-               topUpload.add(track);
+                topUpload.add(track);
             }
-              for (TrackBean t : mostRecent) {
+            for (TrackBean t : mostRecent) {
                 Map<String, String> track = new HashMap<String, String>();
                 track.put("name", t.getTrackname());
                 track.put("artist", daoArtist.getArtistName(t.getArtist_artistid()));
-               topRecent.add(track);
+                topRecent.add(track);
+            }
+               for (TracksperuserBean t : tracksperuser) {
+                Map<String, String> track = new HashMap<String, String>();
+                track.put("name", dao.getTrackName(t.getTrackid()));
+                track.put("artist", daoArtist.getArtistName(dao.getTrackArtistId(t.getTrackid())));
+                userTracks.add(track);
+              
             }
             request.setAttribute("topUpload", topUpload);
             request.setAttribute("topRecent", topRecent);
-            //request.setAttribute("topTrackUploaded", topTrackUploaded);
+            request.setAttribute("userTracks", userTracks);
+           
             RequestDispatcher disp = request.getRequestDispatcher(page);
             if (disp != null) {
                 disp.forward(request, response);
