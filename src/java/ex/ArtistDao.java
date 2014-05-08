@@ -24,7 +24,7 @@ public class ArtistDao {
     private String user;
     private String password;
     private static final String UPDATE_QUERY = "insert into artist (ArtistBirthdate, ArtistEmail, ArtistFirstName, ArtistName, ArtistLogin, ArtistPass, ArtistPhone, ArtistArtistName) values (?,?,?,?,?,?,?,?)";
-
+    private static final String GET_ARTIST = "SELECT * FROM artist where ArtistID = ? ";
     static Connection currentCon = null;
     static ResultSet rs = null;
 
@@ -56,6 +56,26 @@ public class ArtistDao {
             stmt.setInt(7, artist.getPhone());
             stmt.setString(8, artist.getArtistName());
             stmt.executeUpdate();
+        }
+    }
+     
+     public String getArtistName(int artistID) throws SQLException {
+       
+
+        try (Connection con = getConnection();
+                PreparedStatement stmt = con.prepareStatement(GET_ARTIST)) {
+            stmt.setInt(1, artistID);
+            ResultSet rs = stmt.executeQuery();
+
+            if (!rs.next()) {
+                System.out.println("no data");
+                return "no artist";
+            }else{
+                String artistName = rs.getString(9);
+               return artistName;  
+            }
+
+           
         }
     }
     

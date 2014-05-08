@@ -64,17 +64,18 @@
                 <div class="span4">
                     <h5><i class="icon-heart"></i> Meest aangekochte nummers</h5>
                     <ul>
-                        <li>Artiest - Titel</li>
-                        <li>Artiest - Titel</li>
-                        <li>Artiest - Titel</li>
-                        <li>Artiest - Titel</li>
-                        <li>Artiest - Titel</li>
-                        <li>Artiest - Titel</li>
-                        <li>Artiest - Titel</li>
-                        <li>Artiest - Titel</li>
-                        <li>Artiest - Titel</li>
-                        <li>Artiest - Titel</li>
+                         <c:forEach  var="t" items="${track}">
+                        <li> ${t.artist} - ${t.name} </li> 
+                         </c:forEach>
+                    <%-- 
+ 
+                         <li> - ${track.name} </li>
+                   
+                    
+--%> 
+
                     </ul>
+                        
                     <a href="#">Ga naar de muziekstore</a>
                 </div>
                 <div class="span4">
