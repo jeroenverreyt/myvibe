@@ -92,8 +92,9 @@ public class LogIn extends HttpServlet {
                
              
                 session.setAttribute("loggedIn", true);
-                RequestDispatcher disp = request.getRequestDispatcher(page);
-                disp.forward(request, response);
+                response.sendRedirect("/MyVibe/HomeServlet");
+               // RequestDispatcher disp = request.getRequestDispatcher(page);
+                //disp.forward(request, response);
             } else {
                 feedback.put("login", "Het wachtwoord of emailadres is fout!");
                 request.setAttribute("feedback", feedback);
