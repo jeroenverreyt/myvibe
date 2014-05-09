@@ -3,10 +3,19 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Keris/MyVibe/src/java/ex/ReportServlet.java</file>
+            <file>file:/C:/Users/Keris/MyVibe/web/deleteaccount.jsp</file>
+            <file>file:/C:/Users/Keris/MyVibe/web/index.jsp</file>
+            <file>file:/C:/Users/Keris/MyVibe/src/java/ex/TrackBean.java</file>
+            <file>file:/C:/Users/Keris/MyVibe/src/java/ex/TracksperuserBean.java</file>
+            <file>file:/C:/Users/Keris/MyVibe/web/download.jsp</file>
             <file>file:/C:/Users/Keris/MyVibe/web/profile.jsp</file>
-            <file>file:/C:/Users/Keris/MyVibe/src/java/ex/ChangeProfile.java</file>
+            <file>file:/C:/Users/Keris/MyVibe/web/upload.jsp</file>
+            <file>file:/C:/Users/Keris/MyVibe/src/java/ex/LogIn.java</file>
+            <file>file:/C:/Users/Keris/MyVibe/src/java/ex/TrackDao.java</file>
+            <file>file:/C:/Users/Keris/MyVibe/src/java/ex/HomeServlet.java</file>
             <file>file:/C:/Users/Keris/MyVibe/web/report.jsp</file>
+            <file>file:/C:/Users/Keris/MyVibe/src/java/ex/ArtistDao.java</file>
+            <file>file:/C:/Users/Keris/MyVibe/web/home.jsp</file>
         </group>
     </open-files>
 </project-private>
