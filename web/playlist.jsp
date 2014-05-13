@@ -17,12 +17,6 @@
         <link href="css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
         <link href="css/bootstrap-responsive.css" rel="stylesheet" media="screen">
         <link href="css/home.css" rel="stylesheet" media="screen">
-        <script src="/audiojs/audio.min.js"></script>
-        <script>
-            audiojs.events.ready(function() {
-                var as = audiojs.createAll();
-            });
-        </script>
     </head>
     <body>
         <c:if test="${empty(sessionScope.currentSessionUser)}">
@@ -65,7 +59,12 @@
                         <td>${track.trackname}</td>
                         <td>${track.artist_artistid}</td>
                         <td>${track.trackreleasedate}</td>
-                        <td><audio src="/mp3/juicy.mp3" preload="auto" /></td>
+                        <td><audio controls>
+  <source src="${track.trackreleasedate}" type="audio/ogg">
+  <source src="${track.trackreleasedate}" type="audio/mpeg">
+Your browser does not support the audio element.
+</audio>
+                                                    </td>
                     </tr>
                 </c:forEach>
             </table>

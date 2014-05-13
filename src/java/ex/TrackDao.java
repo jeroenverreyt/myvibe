@@ -5,6 +5,7 @@
 package ex;
 
 import java.io.InputStream;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -24,7 +25,7 @@ public class TrackDao {
     private String user;
     private String password;
     private static final String GET_QUERY = "select TrackID, TrackName, TrackReleaseDate, TrackPrice, Artist_ArtistID from track";
-    private static final String GETBYID_QUERY = "select TrackName, TrackReleaseDate, TrackPrice, Artist_ArtistID from track where TrackID = ?";
+    private static final String GETBYID_QUERY = "select TrackName, TrackReleaseDate, TrackPrice, Artist_ArtistID, TrackAudioFile from track where TrackID = ?";
     private static final String ADD_QUERY = "INSERT INTO track (TrackName, TrackPrice, TrackAudioFile,Artist_ArtistID) values (?, ?, ?, 2)";
     private static final String GET_TOP10_UPLOADED = "SELECT TrackID, TrackName, TrackReleaseDate, TrackPrice, Artist_ArtistID FROM track order by TrackCounter desc LIMIT 10";
     private static final String GET_MOST_RECENT = "SELECT TrackID, TrackName, TrackReleaseDate, TrackPrice, Artist_ArtistID FROM track order by TrackReleaseDate desc Limit 10;";
@@ -142,10 +143,12 @@ public class TrackDao {
             String TrackReleaseDate = rs.getString(2);
             int TrackPrice = rs.getInt(3);
             int Artist_ArtistID = rs.getInt(4);
+            Blob TrackAudioFile = rs.getBlob(5);
             track.setTrackname(TrackName);
             track.setTrackreleasedate(TrackReleaseDate);
             track.setTrackprice(TrackPrice);
             track.setArtist_artistid(Artist_ArtistID);
+            track.setTrackaudiofile(TrackAudioFile);
             return track;
         }
     }

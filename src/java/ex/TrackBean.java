@@ -5,6 +5,7 @@
 package ex;
 
 import java.io.Serializable;
+import java.sql.Blob;
 
 /**
  *
@@ -16,15 +17,25 @@ public class TrackBean implements Serializable{
     private String trackreleasedate;
     private int trackprice;
     private int artist_artistid;
+    private Blob trackaudiofile;
 
     public TrackBean() {
     }
 
-    public TrackBean(String trackname, String trackreleasedate, int trackprice, int artist_artistid) {
+    public TrackBean(String trackname, String trackreleasedate, int trackprice, int artist_artistid, Blob trackaudiofile) {
         this.trackname = trackname;
         this.trackreleasedate = trackreleasedate;
         this.trackprice = trackprice;
         this.artist_artistid = artist_artistid;
+        this.trackaudiofile = trackaudiofile;
+    }
+
+    public Blob getTrackaudiofile() {
+        return trackaudiofile;
+    }
+
+    public void setTrackaudiofile(Blob trackaudiofile) {
+        this.trackaudiofile = trackaudiofile;
     }
 
     public TrackBean(int trackid, String trackname, String trackreleasedate, int trackprice, int artist_artistid) {
