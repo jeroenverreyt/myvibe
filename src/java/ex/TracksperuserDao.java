@@ -20,9 +20,7 @@ import java.util.List;
  */
 public class TracksperuserDao {
 
-     private static final String GET_USER_TRACKS = "SELECT TrackID, UserID  FROM tracksperuser where UserID = ? limit 10;";
-    
-    
+    private static final String GET_USER_TRACKS = "SELECT TrackID, UserID  FROM tracksperuser where UserID = ? limit 10;";
     private String url;
     private String user;
     private String password;
@@ -45,27 +43,24 @@ public class TracksperuserDao {
         this.password = password;
     }
 
-    
     public List<TracksperuserBean> getTracks(int userId) throws SQLException {
         try (Connection con = getConnection(); // Java 7 !!!
                 Statement stmt = con.createStatement()) {
-            
+
             List<TracksperuserBean> tracksperuser = new ArrayList<TracksperuserBean>();
             PreparedStatement statement = con.prepareStatement(GET_USER_TRACKS);
             statement.setInt(1, userId);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                TracksperuserBean track = new TracksperuserBean(rs.getInt(1), 
+                TracksperuserBean track = new TracksperuserBean(rs.getInt(1),
                         rs.getInt(2));
                 tracksperuser.add(track);
             }
             return tracksperuser;
         }
     }
-    
-    
+
     private Connection getConnection() throws SQLException {
         return DriverManager.getConnection(url, user, password);
     }
 }
-

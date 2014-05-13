@@ -4,16 +4,13 @@
  */
 package ex;
 
-import ex.UserBean;
-import ex.UserDao;
-import java.text.*;
-import java.util.*;
-import java.sql.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebInitParam;
@@ -27,21 +24,19 @@ import javax.servlet.http.HttpSession;
  *
  * @author Jeroen
  */
-@WebServlet(value = "/LogIn", initParams = {
+@WebServlet(value = "/OverzichtTracksperuserServlet", initParams = {
     @WebInitParam(name = "driver", value = "com.mysql.jdbc.Driver"),
     @WebInitParam(name = "url", value = "jdbc:mysql://db4free.net/myvibe10"),
     @WebInitParam(name = "user", value = "keris"),
     @WebInitParam(name = "password", value = "kerisve"),
-    @WebInitParam(name = "page", value = "home.jsp"),
-    @WebInitParam(name = "errorpage", value = "index.jsp"),})
-public class LogIn extends HttpServlet {
+    @WebInitParam(name = "page", value = "/playlist.jsp"),})
+public class OverzichtTracksperuserServlet extends HttpServlet {
 
-    private UserDao dao;
-    private String page;
-    private String errorpage;
-    RequestDispatcher dispatcher;
+    private TracksperuserDao daoTracksPerUser;
+    private TrackDao dao;
+    private ArtistDao daoArtist;
+    private String page = "";
 
-    
     public void init() throws ServletException {
         try {
             String driver = getInitParameter("driver");
@@ -49,16 +44,27 @@ public class LogIn extends HttpServlet {
             String user = getInitParameter("user");
             String password = getInitParameter("password");
             page = getInitParameter("page");
-            errorpage = getInitParameter("errorpage");
             if (driver == null || url == null || user == null || password == null
                     || page == null) {
                 throw new ServletException("Init parameter missing");
             }
-            dao = new UserDao();
+            dao = new TrackDao();
             dao.setDriver(driver);
             dao.setUser(user);
             dao.setPassword(password);
             dao.setUrl(url);
+
+            daoTracksPerUser = new TracksperuserDao();
+            daoTracksPerUser.setDriver(driver);
+            daoTracksPerUser.setUser(user);
+            daoTracksPerUser.setPassword(password);
+            daoTracksPerUser.setUrl(url);
+
+            daoArtist = new ArtistDao();
+            daoArtist.setDriver(driver);
+            daoArtist.setUser(user);
+            daoArtist.setPassword(password);
+            daoArtist.setUrl(url);
         } catch (ClassNotFoundException ex) {
             throw new ServletException("Unable to load driver", ex);
         }
@@ -75,38 +81,31 @@ public class LogIn extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException {
-         Map<String, String> feedback = new HashMap<String, String>();
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
         try {
+            HttpSession session = request.getSession();
+            UserBean currentUser = (UserBean) session.getAttribute("currentSessionUser");
 
-            UserBean user = new UserBean();
-            user.setEmail(request.getParameter("email"));
-            user.setPass(request.getParameter("password"));
+            int currentId = currentUser.getId();
+            List<TracksperuserBean> tracksperuser = daoTracksPerUser.getTracks(currentId);
+            ArrayList tracks = new ArrayList();
 
-            user = UserDao.login(user);
+            for (TracksperuserBean t : tracksperuser) {
+                tracks.add(dao.getTrackByID(t.getTrackid() + ""));
+            }
 
-            if (user.isValid()) {
-
-                HttpSession session = request.getSession(true);
-                session.setAttribute("currentSessionUser", user);
-               
-             
-                session.setAttribute("loggedIn", true);
-                response.sendRedirect("HomeServlet");
-               // RequestDispatcher disp = request.getRequestDispatcher(page);
-                //disp.forward(request, response);
-            } else {
-                feedback.put("login", "Het wachtwoord of emailadres is fout!");
-                request.setAttribute("feedback", feedback);
-                RequestDispatcher disp = request.getRequestDispatcher(errorpage);
+            request.setAttribute("tracks", tracks);
+            RequestDispatcher disp = request.getRequestDispatcher(page);
+            if (disp != null) {
                 disp.forward(request, response);
             }
-        } catch (Throwable theException) {
-            System.out.println(theException);
+        } catch (SQLException e) {
+            throw new ServletException(e);
         }
     }
-// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
 
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP
      * <code>GET</code> method.
@@ -119,14 +118,7 @@ public class LogIn extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-
-
-        } catch (SQLException ex) {
-            Logger.getLogger(LogIn.class
-                    .getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**
@@ -141,14 +133,7 @@ public class LogIn extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-
-
-        } catch (SQLException ex) {
-            Logger.getLogger(LogIn.class
-                    .getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**

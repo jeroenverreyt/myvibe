@@ -17,6 +17,12 @@
         <link href="css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
         <link href="css/bootstrap-responsive.css" rel="stylesheet" media="screen">
         <link href="css/home.css" rel="stylesheet" media="screen">
+        <script src="/audiojs/audio.min.js"></script>
+        <script>
+            audiojs.events.ready(function() {
+                var as = audiojs.createAll();
+            });
+        </script>
     </head>
     <body>
         <c:if test="${empty(sessionScope.currentSessionUser)}">
@@ -36,14 +42,33 @@
             <div class="row" id="menu">
                 <nav role="navigation" class="navbar navbar-default">
                     <ul class="nav navbar-nav">
-                        <li><a href="home.jsp">Home</a></li>
+                        <li><a href="HomeServlet">Home</a></li>
                         <li class="active"><a href="#">Mijn afspeellijst</a></li>
                         <li><a href="OverzichtTracks">Koop een nummer</a></li>
                         <li><a href="upload.jsp">Upload een nummer</a></li>
                     </ul>
                 </nav>
             </div>
-
+            <table class="table table-condensed">
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th>Track Name</th>
+                    <th>Artist</th>
+                    <th>Release date</th>
+                    <th></th>
+                </tr>
+                <c:forEach items="${tracks}" var="track" varStatus="status">
+                    <tr>
+                        <td><c:out value="${status.count}"/></td>
+                        <td><input type="hidden" name="trackid" value="${track.trackid}" /></td>
+                        <td>${track.trackname}</td>
+                        <td>${track.artist_artistid}</td>
+                        <td>${track.trackreleasedate}</td>
+                        <td><audio src="/mp3/juicy.mp3" preload="auto" /></td>
+                    </tr>
+                </c:forEach>
+            </table>
         </div>
     </body>
 </html>
