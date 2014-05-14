@@ -20,7 +20,8 @@ import java.util.List;
  */
 public class TracksperuserDao {
 
-    private static final String GET_USER_TRACKS = "SELECT TrackID, UserID  FROM tracksperuser where UserID = ? limit 10;";
+    private static final String GET_USER_TRACKS = "SELECT TrackID, UserID  FROM tracksperuser where UserID = ?;";
+    private static final String ADD_TRACK = "INSERT INTO tracksperuser (TrackID, UserID)  VALUES (?,?);";
     private String url;
     private String user;
     private String password;
@@ -62,5 +63,18 @@ public class TracksperuserDao {
 
     private Connection getConnection() throws SQLException {
         return DriverManager.getConnection(url, user, password);
+    }
+
+    public void AddTrack(String trackid, int userid) throws SQLException {
+        try (Connection con = getConnection(); // Java 7 !!!
+                ) {
+            try {
+                PreparedStatement statement = con.prepareStatement(ADD_TRACK);
+                statement.setString(1, trackid);
+                statement.setInt(2, userid);
+                statement.executeUpdate();
+            } catch (SQLException ex) {
+            }
+        }
     }
 }

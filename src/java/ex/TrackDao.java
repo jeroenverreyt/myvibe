@@ -29,7 +29,7 @@ public class TrackDao {
     private static final String ADD_QUERY = "INSERT INTO track (TrackName, TrackPrice, TrackAudioFile,Artist_ArtistID) values (?, ?, ?, 2)";
     private static final String GET_TOP10_UPLOADED = "SELECT TrackID, TrackName, TrackReleaseDate, TrackPrice, Artist_ArtistID FROM track order by TrackCounter desc LIMIT 10";
     private static final String GET_MOST_RECENT = "SELECT TrackID, TrackName, TrackReleaseDate, TrackPrice, Artist_ArtistID FROM track order by TrackReleaseDate desc Limit 10;";
-
+    private static final String UPDATE_COUNTER = "UPDATE track SET TrackCounter = TrackCounter + 1 WHERE TrackID = ?;";
     static Connection currentCon = null;
     static ResultSet rs = null;
 
@@ -177,5 +177,17 @@ public class TrackDao {
 
     private Connection getConnection() throws SQLException {
         return DriverManager.getConnection(url, user, password);
+    }
+
+    public void UpdateCounter(String trackid) throws SQLException {
+        try (Connection con = getConnection(); // Java 7 !!!
+                ) {
+            try {
+                PreparedStatement statement = con.prepareStatement(UPDATE_COUNTER);
+                statement.setString(1, trackid);
+                statement.executeUpdate();
+            } catch (SQLException ex) {
+            }
+        }
     }
 }

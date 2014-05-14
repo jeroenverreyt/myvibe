@@ -16,6 +16,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.jsp.jstl.core.LoopTagStatus;
 
 /**
@@ -31,7 +32,7 @@ import javax.servlet.jsp.jstl.core.LoopTagStatus;
 public class TrackDownloadServlet extends HttpServlet {
 
     private TrackDao trackdao;
-    private TrackBean track;
+    private TracksperuserDao tracksperuserdao;
     private UserDao userdao;
     private String page;
     private String trackid;
@@ -52,6 +53,12 @@ public class TrackDownloadServlet extends HttpServlet {
             trackdao.setUser(user);
             trackdao.setPassword(password);
             trackdao.setUrl(url);
+
+            tracksperuserdao = new TracksperuserDao();
+            tracksperuserdao.setDriver(driver);
+            tracksperuserdao.setUser(user);
+            tracksperuserdao.setPassword(password);
+            tracksperuserdao.setUrl(url);
         } catch (ClassNotFoundException ex) {
             throw new ServletException("Unable to load driver", ex);
         }
@@ -62,9 +69,14 @@ public class TrackDownloadServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         trackid = request.getParameter("trackid");
         System.out.println(trackid);
+
+        HttpSession session = request.getSession();
+        UserBean currentUser = (UserBean) session.getAttribute("currentSessionUser");
+        int userid = currentUser.getId();
+
         try {
-            track = trackdao.getTrackByID(trackid);
-            
+            tracksperuserdao.AddTrack(trackid, userid);
+            trackdao.UpdateCounter(trackid);
         } catch (SQLException ex) {
             Logger.getLogger(TrackDownloadServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
