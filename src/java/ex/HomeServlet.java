@@ -88,7 +88,7 @@ public class HomeServlet extends HttpServlet {
             int currentId = currentUser.getId();
             List<TrackBean> topTrackUploaded = dao.getTopUploaded();
             List<TrackBean> mostRecent = dao.getMostRecent();
-            List<TracksperuserBean> tracksperuser = daoTracksPerUser.getTracks(currentId);
+            List<TracksperuserBean> tracksperuser = daoTracksPerUser.getTracksRecent(currentId);
             System.out.println("currentId: " + currentId);
             ArrayList topUpload = new ArrayList();
             ArrayList topRecent = new ArrayList();

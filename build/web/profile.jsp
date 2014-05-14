@@ -70,8 +70,9 @@
             
             <h6> Credits </h6>
             <p> ${currentSessionUser.credits} </p>  
-            
-            <button type="submit" class="btn btn-primary">Bevestig wijzigingen</button>
+           
+            <button type="submit" class="btn btn-primary" name="buycredits">Koop extra credits</button>
+             <button type="submit" class="btn btn-primary" name ="changeprofile">Bevestig wijzigingen</button>
         </form>
         <form action="deleteaccount.jsp" method="post" class="form-horizontal"> 
             <button type="submit" class="btn btn-danger">Verwijder account</button>

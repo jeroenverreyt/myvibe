@@ -54,7 +54,10 @@ public class ChangeProfile extends HttpServlet {
     protected void doPost(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
 
-
+        String buycredits = request.getParameter("buycredits");
+        String changeprofile = request.getParameter("changeprofile");
+        if (changeprofile!= null){
+       
         Map<String, String> feedback = new HashMap<String, String>();
 
         String newPasswordToHash = request.getParameter("newPassword");
@@ -85,5 +88,11 @@ public class ChangeProfile extends HttpServlet {
         request.setAttribute("feedback", feedback);
         RequestDispatcher disp = request.getRequestDispatcher(page);
         disp.forward(request, response);
+        }else{
+            RequestDispatcher disp = request.getRequestDispatcher("/credits.jsp");
+        disp.forward(request, response);
+        }
+        
+   
     }
 }

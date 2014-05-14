@@ -21,6 +21,7 @@ import java.util.List;
 public class TracksperuserDao {
 
     private static final String GET_USER_TRACKS = "SELECT TrackID, UserID  FROM tracksperuser where UserID = ?;";
+    private static final String GET_USER_TRACKS_RECENT = "SELECT TrackID, UserID  FROM tracksperuser where UserID = ? order by idtracksperuser desc limit 10";
     private static final String ADD_TRACK = "INSERT INTO tracksperuser (TrackID, UserID)  VALUES (?,?);";
     private String url;
     private String user;
@@ -44,6 +45,23 @@ public class TracksperuserDao {
         this.password = password;
     }
 
+    public List<TracksperuserBean> getTracksRecent(int userId) throws SQLException {
+        try (Connection con = getConnection(); // Java 7 !!!
+                Statement stmt = con.createStatement()) {
+
+            List<TracksperuserBean> tracksperuser = new ArrayList<TracksperuserBean>();
+            PreparedStatement statement = con.prepareStatement(GET_USER_TRACKS_RECENT);
+            statement.setInt(1, userId);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                TracksperuserBean track = new TracksperuserBean(rs.getInt(1),
+                        rs.getInt(2));
+                tracksperuser.add(track);
+            }
+            return tracksperuser;
+        }
+    }
+    
     public List<TracksperuserBean> getTracks(int userId) throws SQLException {
         try (Connection con = getConnection(); // Java 7 !!!
                 Statement stmt = con.createStatement()) {
