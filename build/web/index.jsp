@@ -55,15 +55,15 @@
                                   
 				<form class="form-horizontal" action ="UserMVC" method="post">
 				
-					<input type="text" id="inputVoornaam" name ="inputFirstName"class="input-small" placeholder="Voornaam" required>
+					<input type="text" id="inputVoornaam" name ="inputFirstName"class="input-small" placeholder="Voornaam" required value="${fields.firstname}">
 					
-					<input type="text" id="inputNaam" name="inputName" class="input-small" placeholder="Naam" required>
+					<input type="text" id="inputNaam" name="inputName" class="input-small" placeholder="Naam" required value="${fields.name}">
 					
-					<input type="email" id="inputEmail" name="inputEmail" class="input-xlarge" placeholder="Jouw e-mailadres" required >
+					<input type="email" id="inputEmail" name="inputEmail" class="input-xlarge" placeholder="Jouw e-mailadres" required value="${fields.email}">
 					
-					<input type="email" id="inputConfEmail" name="inputConfEmail" class="input-xlarge" placeholder="Bevestig e-mailadres" required>
+					<input type="email" id="inputConfEmail" name="inputConfEmail" class="input-xlarge" placeholder="Bevestig e-mailadres" required value="${fields.confEmail}">
 					
-					<input type="text" id="inputUsername" name="inputUsername" class="input-xlarge" placeholder="Kies een gebruikersnaam" required>
+					<input type="text" id="inputUsername" name="inputUsername" class="input-xlarge" placeholder="Kies een gebruikersnaam" required value="${fields.login}">
 					
 					<input type="password" id="inputPassword" name="inputPassword" class="input-xlarge" placeholder="Wachtwoord" required>
 					
@@ -153,13 +153,13 @@
 						</select>
 					</div>
 					
-					<input type="text" id="inputPhonenumber" name="inputPhonenumber" class="input-xlarge" placeholder="Telefoonnummer" required>
+					<input type="text" id="inputPhonenumber" name="inputPhonenumber" class="input-xlarge" placeholder="Telefoonnummer" required value="${fields.phone}">
 					
 					<label class="checkbox input-xlarge">
-						<input type="checkbox" id="CheckboxStageName" name="CheckBoxStageName" onclick="disableFunction()"> Ik ben een artiest
+						<input type="checkbox" id="CheckboxStageName" name="CheckBoxStageName" ${fields.artist == null ? "" : "checked"} onclick="disableFunction()"> Ik ben een artiest
 					</label>
 					
-					<input type="text" id="inputStagename" name="inputStagename" class="input-xlarge" placeholder="Artiestennaam" disabled required>
+					<input type="text" id="inputStagename" name="inputStagename" class="input-xlarge" placeholder="Artiestennaam" ${fields.artist == null ? "disabled" : ""}  required value="${fields.artistname}">
 					
 					<div>
 						<button type="submit" class="btn btn-primary">Registreer</button>

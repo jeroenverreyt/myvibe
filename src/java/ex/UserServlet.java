@@ -71,23 +71,32 @@ public class UserServlet extends HttpServlet {
             HttpServletResponse response) throws ServletException, IOException {
 
         Map<String, String> messages = new HashMap<String, String>();
-
+        Map<String, String> fields = new HashMap<String, String>();
         try{
             
         
         boolean userExists;
         String isartist = request.getParameter("CheckBoxStageName");
-        String artistname = request.getParameter("inputStagename");
+         String artistname = "";
         String login = request.getParameter("inputUsername");
+        fields.put("login", login);
         String pass = request.getParameter("inputPassword");
         String name = request.getParameter("inputName");
+        fields.put("name", name);
         String firstname = request.getParameter("inputFirstName");
+        fields.put("firstname", firstname);
         String email = request.getParameter("inputEmail");
+        fields.put("email", email);
         String confEmail = request.getParameter("inputConfEmail");
+        fields.put("confEmail", confEmail);
         int phone = Integer.parseInt(request.getParameter("inputPhonenumber"));
+        fields.put("phone",request.getParameter("inputPhonenumber" ));
         String day = request.getParameter("day");
+        fields.put("day", day);
         String month = request.getParameter("month");
+        fields.put("month", month);
         String year = request.getParameter("year");
+        fields.put("year", year);
         String birthDate = year + "-" + month + "-" + day;
         userExists = dao.userExists(email);
         SecurePassword s = new SecurePassword();
@@ -98,12 +107,17 @@ public class UserServlet extends HttpServlet {
         if (isartist == null) {
             isartist = "user";
         } else if (isartist.equals("on")) {
-            isartist = "artist";
+             isartist = "artist";
+            artistname = request.getParameter("inputStagename");
+             fields.put("artistname", artistname);
+            fields.put("artist", isartist);
         }
 
         if (!email.equals(confEmail)) {
             System.out.println("Email addresses are not equal");
             messages.put("email", "Beide email adressen moeten gelijk zijn!");
+            fields.remove("email");
+            fields.remove("confEmail");
         } else {
             switch (isartist) {
                 case "user":
@@ -117,6 +131,8 @@ public class UserServlet extends HttpServlet {
                     } else {
                         System.out.println("user allready exists");
                         messages.put("user", "Er bestaat al een user met dit email adres");
+                        fields.remove("email");
+                        fields.remove("confEmail");
                     }
 
                     break;
@@ -135,6 +151,8 @@ public class UserServlet extends HttpServlet {
                     } else {
                         System.out.println("artist allready exists");
                         messages.put("user", "Er bestaat al een artist met dit email adres");
+                        fields.remove("email");
+                        fields.remove("confEmail");
                     }
 
                     break;
@@ -146,6 +164,7 @@ public class UserServlet extends HttpServlet {
                 }
 
         request.setAttribute("messages", messages);
+        request.setAttribute("fields", fields);
         RequestDispatcher disp = request.getRequestDispatcher(page);
         if (disp != null) {
             disp.forward(request, response);
