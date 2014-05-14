@@ -60,11 +60,6 @@
                         <td>${track.artist_artistid}</td>
                         <td>${track.trackreleasedate}</td>
                         <td>
-                            <audio controls>
-                                <source src="${track.trackaudiofile}" type="audio/ogg">
-                                <source src="${track.trackaudiofile}" type="audio/mpeg">
-                                Your browser does not support the audio element.
-                            </audio>
                         </td>
                     </tr>
                 </c:forEach>

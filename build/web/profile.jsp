@@ -38,7 +38,7 @@
             <nav role="navigation" class="navbar navbar-default">
                 <ul class="nav navbar-nav">
                     <li><a href="HomeServlet">Home</a></li>
-                    <li><a href="playlist.jsp">Mijn afspeellijst</a></li>
+                    <li><a href="OverzichtTracksperuserServlet">Mijn afspeellijst</a></li>
                     <li><a href="OverzichtTracks">Koop een nummer</a></li>
                     <li><a href="upload.jsp">Upload een nummer</a></li>
                 </ul>
