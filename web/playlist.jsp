@@ -19,7 +19,7 @@
         <link href="css/home.css" rel="stylesheet" media="screen">
     </head>
     <body>
-        <c:if test="${empty(sessionScope.currentSessionUser)}">
+        <c:if test="${empty(sessionScope.currentSessionArtist)}">
             <c:redirect url="/index.jsp"/>
         </c:if>
         <div class="container">
@@ -28,7 +28,7 @@
                     <h1>MyVibe</h1>
                 </div>
                 <div class="span4">
-                    <h4>Welkom ${currentSessionUser.firstName}</h4>
+                    <h4>Welkom ${currentSessionArtist.firstName}</h4>
                     <a href="LogOut" target="_parent"><button class="btn btn-danger">Log uit</button></a><a href="profile.jsp" target="_parent"><button class="btn">Profiel</button></a>
                 </div>
             </div>
@@ -39,7 +39,9 @@
                         <li><a href="HomeServlet">Home</a></li>
                         <li class="active"><a href="#">Mijn afspeellijst</a></li>
                         <li><a href="OverzichtTracks">Koop een nummer</a></li>
+                        <c:if test="${!empty(sessionScope.currentSessionArtist)}">
                         <li><a href="upload.jsp">Upload een nummer</a></li>
+                        </c:if>
                     </ul>
                 </nav>
             </div>
@@ -48,17 +50,14 @@
                     <th></th>
                     <th></th>
                     <th>Track Name</th>
-                    <th>Artist</th>
-                    <th>Release date</th>
+                   
                     <th></th>
                 </tr>
                 <c:forEach items="${tracks}" var="track" varStatus="status">
                     <tr>
-                        <td><c:out value="${status.count}"/></td>
-                        <td><input type="hidden" name="trackid" value="${track.trackid}" /></td>
+                        
                         <td>${track.trackname}</td>
-                        <td>${track.artist_artistid}</td>
-                        <td>${track.trackreleasedate}</td>
+                      
                         <td>
                         </td>
                     </tr>

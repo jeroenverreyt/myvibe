@@ -80,26 +80,44 @@ public class LogIn extends HttpServlet {
         try {
 
             UserBean user = new UserBean();
+            ArtistBean artist = new ArtistBean();
+            
             user.setEmail(request.getParameter("email"));
             user.setPass(request.getParameter("password"));
+            
+            artist.setEmail(request.getParameter("email"));
+            artist.setPass(request.getParameter("password"));
 
             user = UserDao.login(user);
+            artist = ArtistDao.login(artist);
 
             if (user.isValid()) {
 
                 HttpSession session = request.getSession(true);
                 session.setAttribute("currentSessionUser", user);
-               
+                session.removeAttribute("currentSessionArtist");
              
                 session.setAttribute("loggedIn", true);
                 response.sendRedirect("HomeServlet");
+                System.out.println("Logged in as user!");
+                
                // RequestDispatcher disp = request.getRequestDispatcher(page);
                 //disp.forward(request, response);
+            } else if(artist.isValid()){
+                
+                HttpSession session = request.getSession(true);
+                session.setAttribute("currentSessionArtist", artist);
+                session.removeAttribute("currentSessionUser");
+                session.setAttribute("loggedIn", true);
+                response.sendRedirect("upload.jsp");
+                
+                System.out.println("Logged in as artist!");
             } else {
                 feedback.put("login", "Het wachtwoord of emailadres is fout!");
                 request.setAttribute("feedback", feedback);
                 RequestDispatcher disp = request.getRequestDispatcher(errorpage);
                 disp.forward(request, response);
+          
             }
         } catch (Throwable theException) {
             System.out.println(theException);

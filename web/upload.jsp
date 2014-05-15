@@ -19,9 +19,9 @@
         <link href="css/home.css" rel="stylesheet" media="screen">
     </head>
     <body>
-        <c:if test="${empty(sessionScope.currentSessionUser)}">
+        <c:if test="${!empty(sessionScope.currentSessionUser)}">
             <c:redirect url="/index.jsp"/>
-        </c:if>
+        </c:if> 
         <div class="container">
             <div class="row">
                 <div class="span8">
@@ -36,10 +36,15 @@
             <div class="row" id="menu">
                 <nav role="navigation" class="navbar navbar-default">
                     <ul class="nav navbar-nav">
+                         <c:if test="${!empty(sessionScope.currentSessionUser)}">
                         <li><a href="HomeServlet">Home</a></li>
                         <li><a href="OverzichtTracksperuserServlet">Mijn afspeellijst</a></li>
                         <li><a href="OverzichtTracks">Koop een nummer</a></li>
+                        </c:if> 
+                        <c:if test="${!empty(sessionScope.currentSessionArtist)}">
+                         <li><a href="OverzichtTracksArtist">Mijn tracks</a></li>
                         <li class="active"><a href="#">Upload een nummer</a></li>
+                        </c:if>
                     </ul>
                 </nav>
             </div>

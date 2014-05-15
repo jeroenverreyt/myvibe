@@ -24,6 +24,7 @@ import javax.servlet.http.*;
 public class ChangeProfile extends HttpServlet {
 
     private UserDao dao;
+    private ArtistDao daoArtist;
     private String page;
 
     public void init() throws ServletException {
@@ -38,10 +39,15 @@ public class ChangeProfile extends HttpServlet {
                 throw new ServletException("Init parameter missing");
             }
             dao = new UserDao();
+            daoArtist = new ArtistDao();
             dao.setDriver(driver);
+            daoArtist.setDriver(driver);
             dao.setUser(user);
+            daoArtist.setUser(user);
             dao.setPassword(password);
+            daoArtist.setPassword(password);
             dao.setUrl(url);
+            daoArtist.setUrl(url);
         } catch (ClassNotFoundException ex) {
             throw new ServletException("Unable to load driver", ex);
         }
@@ -56,43 +62,81 @@ public class ChangeProfile extends HttpServlet {
 
         String buycredits = request.getParameter("buycredits");
         String changeprofile = request.getParameter("changeprofile");
-        if (changeprofile!= null){
-       
-        Map<String, String> feedback = new HashMap<String, String>();
+        ArtistBean currentArtist = null;
+        UserBean currentUser = null;
+        if (changeprofile != null) {
 
-        String newPasswordToHash = request.getParameter("newPassword");
-        SecurePassword s = new SecurePassword();
-        
-        String newPassword = s.md5password(newPasswordToHash);
-        String newPhone = request.getParameter("newPhone");
-        HttpSession session = request.getSession();
-        UserBean currentUser = (UserBean)session.getAttribute("currentSessionUser");
-      
-        int currentId = currentUser.getId();
-        
-  
-        try {
-            if (!newPassword.equals("")) {
+            Map<String, String> feedback = new HashMap<String, String>();
+
+            String newPasswordToHash = request.getParameter("newPassword");
+            SecurePassword s = new SecurePassword();
+
+            String newPassword = s.md5password(newPasswordToHash);
+            String newPhone = request.getParameter("newPhone");
+            HttpSession session = request.getSession();
+            int currentId = 0;
+            
+            boolean isArtist = false;
+            try {
+                 currentUser = (UserBean) session.getAttribute("currentSessionUser");
+                currentId = currentUser.getId();
+
+            } catch (NullPointerException e) {
+                System.out.println("Momenteel artist");
+                isArtist = true;
+            }
+
+            if (isArtist) {
+               currentArtist = (ArtistBean) session.getAttribute("currentSessionArtist");
+                currentId = currentArtist.getId();
                 
-                dao.changePassword(newPassword, currentId);
-                feedback.put("wijziging", "Uw wijzigingen zijn opgeslagen!");
-            }
-            if (!newPhone.equals("")) {
-                dao.changePhone(newPhone, currentId);
-                feedback.put("wijziging", "Uw wijzigingen zijn opgeslagen!");
             }
 
-        } catch (SQLException ex) {
-            Logger.getLogger(ChangeProfile.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        request.setAttribute("feedback", feedback);
-        RequestDispatcher disp = request.getRequestDispatcher(page);
-        disp.forward(request, response);
-        }else{
+            System.out.println("currentArtistId: " + currentId);
+
+            try {
+                if (!newPasswordToHash.equals("")) {
+                    if (isArtist) {
+                        System.out.println("new password: " + newPassword);
+                        daoArtist.changePassword(newPassword, currentId);
+                        currentArtist.setPass(newPassword);
+                    } else {
+                        dao.changePassword(newPassword, currentId);
+                        currentUser.setPass(newPassword);
+                    }
+
+                    feedback.put("wijziging", "Uw wijzigingen zijn opgeslagen!");
+                }
+                if (!newPhone.equals("")) {
+                    if (isArtist) {
+                        daoArtist.changePhone(newPhone, currentId);
+                        currentArtist.setPhone(Integer.parseInt(newPhone));
+                    } else {
+                        dao.changePhone(newPhone, currentId);
+                        currentUser.setPhone(Integer.parseInt(newPhone));
+                    }
+
+                    feedback.put("wijziging", "Uw wijzigingen zijn opgeslagen!");
+                }
+
+            } catch (SQLException ex) {
+                Logger.getLogger(ChangeProfile.class.getName()).log(Level.SEVERE, null, ex);
+            }
+           
+            if(isArtist){
+                session.setAttribute("sessionCurrentArtist", currentArtist);
+            }else{
+                session.setAttribute("sessionCurrentUser", currentUser);
+            }
+            
+            
+            request.setAttribute("feedback", feedback);
+            RequestDispatcher disp = request.getRequestDispatcher(page);
+            disp.forward(request, response);
+        } else {
             RequestDispatcher disp = request.getRequestDispatcher("/credits.jsp");
-        disp.forward(request, response);
+            disp.forward(request, response);
         }
-        
-   
+
     }
 }

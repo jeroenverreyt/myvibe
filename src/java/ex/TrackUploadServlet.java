@@ -4,16 +4,26 @@
  */
 package ex;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebInitParam;
@@ -22,6 +32,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 /**
  *
@@ -33,11 +47,13 @@ import javax.servlet.http.Part;
     @WebInitParam(name = "user", value = "keris"),
     @WebInitParam(name = "password", value = "kerisve"),
     @WebInitParam(name = "page", value = "/upload.jsp"),})
-@MultipartConfig(maxFileSize = 16177215)
+@MultipartConfig()
 public class TrackUploadServlet extends HttpServlet {
 
     private TrackDao dao;
     private String page;
+    private final static Logger LOGGER =
+            Logger.getLogger(TrackUploadServlet.class.getCanonicalName());
 
     public void init() throws ServletException {
         try {
@@ -62,34 +78,75 @@ public class TrackUploadServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
-        // gets values of text fields
-        String trackName = request.getParameter("trackName");
-        String trackPrice = request.getParameter("trackPrice");
 
-        InputStream inputStream = null; // input stream of the upload file
+        String fileName = "";
+        String trackPrice = "";
+        String trackName = "";
+        String trackType = "";
 
-        // obtains the upload file part in this multipart request
-        Part filePart = request.getPart("trackAudioFile");
-        if (filePart != null) {
-            // prints out some information for debugging
-            System.out.println(filePart.getName());
-            System.out.println(filePart.getSize());
-            System.out.println(filePart.getContentType());
+        // Check that we have a file upload request
+        boolean isMultipart = ServletFileUpload.isMultipartContent(request);
+        System.out.println(isMultipart);
 
-            // obtains input stream of the upload file
-            inputStream = filePart.getInputStream();
+        // Create a factory for disk-based file items
+        DiskFileItemFactory factory = new DiskFileItemFactory();
+
+        // Configure a repository (to ensure a secure temp location is used)
+        ServletContext servletContext = this.getServletConfig().getServletContext();
+        File repository = (File) servletContext.getAttribute("javax.servlet.context.tempdir");
+        factory.setRepository(repository);
+
+        // Create a new file upload handler
+        ServletFileUpload upload = new ServletFileUpload(factory);
+
+        // Parse the request
+        List<FileItem> items = null;
+        try {
+            items = upload.parseRequest(request);
+        } catch (FileUploadException ex) {
+            Logger.getLogger(TrackUploadServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        Boolean success = false;
+        // Process the uploaded items
+        Iterator<FileItem> iter = items.iterator();
+        while (iter.hasNext()) {
+            FileItem item = iter.next();
+            if (item.isFormField()) {
+                // Process normal fields here.
+                if (item.getFieldName().equals("trackPrice")) {
+                    trackPrice = item.getString();
+                } else if (item.getFieldName().equals("trackName")) {
+                    trackName = item.getString();
+                } else if (item.getFieldName().equals("trackType")) {
+                    trackType = item.getString();
+                }
+            } else {
+                fileName = item.getName();
+            }
+        }
         
+        Date date = new Date();
+        SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+        String trackReleaseDate = DATE_FORMAT.format(date);
+        String trackAudioFilePath = "c:/songs/" + fileName;
+
+        System.out.println(trackAudioFilePath);
+        System.out.println(trackName);
+        System.out.println(trackPrice);
+        System.out.println(trackReleaseDate);
+        System.out.println(trackType);
+
+        Boolean success = false;
+
         try {
-            success = dao.addTrack(trackName, trackPrice, inputStream);
-        } catch (SQLException ex) {
+            success = dao.addTrack(trackName, trackPrice, trackReleaseDate, trackType, trackAudioFilePath);
+        } catch (Exception ex) {
             Logger.getLogger(TrackUploadServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         // forwards to the message page
         RequestDispatcher disp = request.getRequestDispatcher(page);
+
         disp.forward(request, response);
     }
 

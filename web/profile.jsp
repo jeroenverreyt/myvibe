@@ -20,7 +20,7 @@
         <link href="css/home.css" rel="stylesheet" media="screen">
     </head>
     <body>
-    <c:if test="${empty(sessionScope.currentSessionUser)}">
+    <c:if test="${empty(sessionScope.currentSessionUser) && empty(sessionScope.currentSessionArtist) }">
         <c:redirect url="/index.jsp"/>
     </c:if>
     <div class="container">
@@ -29,7 +29,7 @@
                 <h1>MyVibe</h1>
             </div>
             <div class="span4">
-                <h4>Welkom ${currentSessionUser.firstName}</h4>
+                <h4>Welkom ${currentSessionUser.firstName}${currentSessionArtist.firstName}</h4>
                 <a href="LogOut" target="_parent"><button class="btn btn-danger">Log uit</button></a><a href="profile.jsp" target="_parent"><button class="btn">Profiel</button></a>
             </div>
         </div>
@@ -37,10 +37,14 @@
         <div class="row" id="menu">
             <nav role="navigation" class="navbar navbar-default">
                 <ul class="nav navbar-nav">
+                    <c:if test="${!empty(sessionScope.currentSessionUser)}">
                     <li><a href="HomeServlet">Home</a></li>
                     <li><a href="OverzichtTracksperuserServlet">Mijn afspeellijst</a></li>
                     <li><a href="OverzichtTracks">Koop een nummer</a></li>
-                    <li><a href="upload.jsp">Upload een nummer</a></li>
+                    </c:if>
+                     <c:if test="${!empty(sessionScope.currentSessionArtist)}">
+                        <li><a href="upload.jsp">Upload een nummer</a></li>
+                        </c:if>
                 </ul>
             </nav>
         </div>
@@ -48,31 +52,32 @@
         <form action="ChangeProfile" method="post" class="form-horizontal"> 
             
             <h6> Username: </h6>
-            <p> ${currentSessionUser.login} </p>
+            <p> ${currentSessionUser.login}${currentSessionArtist.login} </p>
            
             <h6> Naam: </h6>
-            <p> ${currentSessionUser.name} </p>
+            <p> ${currentSessionUser.name}${currentSessionArtist.name} </p>
             
             <h6> Voornaam: </h6>
-            <p> ${currentSessionUser.firstName} </p>
+            <p> ${currentSessionUser.firstName}${currentSessionArtist.firstName} </p>
             
              <h6> Geboortedatum: </h6>
-            <p> ${currentSessionUser.birthDate} </p>
+            <p> ${currentSessionUser.birthDate}${currentSessionArtist.birthDate} </p>
 
             <h6> Email: </h6>
-            <p> ${currentSessionUser.email} </p>
+            <p> ${currentSessionUser.email}${currentSessionArtist.email} </p>
             
             <h6> Telefoon: </h6>
-            <input type="text" id="newPhone" name="newPhone" value="${currentSessionUser.phone}"> </input>
+            <input type="text" id="newPhone" name="newPhone" value="${currentSessionUser.phone}${currentSessionArtist.phone}"> </input>
 
             <h6> Nieuw paswoord: </h6>
             <input type="password" id ="newPassword" name="newPassword"> </input>
-            
+             <c:if test="${!empty(sessionScope.currentSessionUser)}">
             <h6> Credits </h6>
             <p> ${currentSessionUser.credits} </p>  
            
             <button type="submit" class="btn btn-primary" name="buycredits">Koop extra credits</button>
-             <button type="submit" class="btn btn-primary" name ="changeprofile">Bevestig wijzigingen</button>
+             </c:if>
+            <button type="submit" class="btn btn-primary" name ="changeprofile">Bevestig wijzigingen</button>
         </form>
         <form action="deleteaccount.jsp" method="post" class="form-horizontal"> 
             <button type="submit" class="btn btn-danger">Verwijder account</button>

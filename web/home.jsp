@@ -39,7 +39,9 @@
                         <li class="active"><a href="#">Home</a></li>
                         <li><a href="OverzichtTracksperuserServlet">Mijn afspeellijst</a></li>
                         <li><a href="OverzichtTracks">Koop een nummer</a></li>
+                        <c:if test="${!empty(sessionScope.currentSessionArtist)}">
                         <li><a href="upload.jsp">Upload een nummer</a></li>
+                        </c:if>
                     </ul>
                 </nav>
             </div>

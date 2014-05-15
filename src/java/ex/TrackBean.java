@@ -18,7 +18,7 @@ public class TrackBean implements Serializable{
     private int trackprice;
     private int artist_artistid;
     private Blob trackaudiofile;
-
+    private int trackcounter;
     public TrackBean() {
     }
 
@@ -44,6 +44,14 @@ public class TrackBean implements Serializable{
         this.trackreleasedate = trackreleasedate;
         this.trackprice = trackprice;
         this.artist_artistid = artist_artistid;
+    }
+     public TrackBean(int trackid, String trackname, String trackreleasedate, int trackprice, int artist_artistid, int trackcounter) {
+        this.trackid = trackid;
+        this.trackname = trackname;
+        this.trackreleasedate = trackreleasedate;
+        this.trackprice = trackprice;
+        this.artist_artistid = artist_artistid;
+        this.trackcounter = trackcounter;
     }
 
     public int getTrackid() {
@@ -85,5 +93,14 @@ public class TrackBean implements Serializable{
     public void setArtist_artistid(int artist_artistid) {
         this.artist_artistid = artist_artistid;
     }
+
+    public int getTrackcounter() {
+        return trackcounter;
+    }
+
+    public void setTrackcounter(int trackcounter) {
+        this.trackcounter = trackcounter;
+    }
+    
 
 }

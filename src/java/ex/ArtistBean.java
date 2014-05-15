@@ -21,6 +21,7 @@ public class ArtistBean {
     private String email;
     private int phone;
     private String artistName;
+    private boolean valid;
     
     public ArtistBean(){
         
@@ -107,6 +108,14 @@ public class ArtistBean {
 
     public void setArtistName(String artistName) {
         this.artistName = artistName;
+    }
+
+    public boolean isValid() {
+        return valid;
+    }
+
+    public void setValid(boolean valid) {
+        this.valid = valid;
     }
     
     

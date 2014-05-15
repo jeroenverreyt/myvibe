@@ -78,6 +78,28 @@ public class ArtistDao {
            
         }
     }
+      public void changePassword(String newPassword, int id) throws SQLException {
+
+        String change_phone_query = "UPDATE artist SET ArtistPass= ? WHERE ArtistId= ? ";
+        System.out.println(change_phone_query);
+        try (Connection con = getConnection();
+                PreparedStatement stmt = con.prepareStatement(change_phone_query)) {
+            stmt.setString(1, newPassword);
+            stmt.setInt(2, id);
+            stmt.executeUpdate();
+        }
+    }
+     public void changePhone(String newPhone, int id) throws SQLException {
+
+        String change_phone_query = "UPDATE artist SET ArtistPhone= ? WHERE ArtistId= ? ;";
+        System.out.println(change_phone_query);
+        try (Connection con = getConnection();
+                PreparedStatement stmt = con.prepareStatement(change_phone_query)) {
+            stmt.setString(1, newPhone);
+            stmt.setInt(2, id);
+            stmt.executeUpdate();
+        }
+    }
     
        public boolean artistExists(String email) throws SQLException {
         String query = "select * from artist where ArtistEmail= ? ;";
@@ -94,6 +116,95 @@ public class ArtistDao {
 
             return true;
         }
+    }
+       public static ArtistBean login(ArtistBean bean) {
+
+        //preparing some objects for connection 
+        Statement stmt = null;
+
+        String email = bean.getEmail();
+        String passwordToHash = bean.getPass();
+        SecurePassword s = new SecurePassword();
+
+        String password = s.md5password(passwordToHash);
+        String searchQuery = "select * from artist where ArtistEmail='"
+                + email
+                + "' AND ArtistPass='"
+                + password
+                + "'";
+
+        // "System.out.println" prints in the console; Normally used to trace the process
+        System.out.println("Your artist name is " + email);
+        System.out.println("Your password is " + password);
+        System.out.println("Query: " + searchQuery);
+
+        try {
+            //connect to DB 
+            currentCon = ConnectionManager.getConnection();
+            stmt = currentCon.createStatement();
+            rs = stmt.executeQuery(searchQuery);
+            boolean more = rs.next();
+
+            // if user does not exist set the isValid variable to false
+            if (!more) {
+                System.out.println("Sorry, you are not a registered artist! Please sign up first");
+                bean.setValid(false);
+            } //if user exists set the isValid variable to true
+            else if (more) {
+                int ArtistId = rs.getInt("ArtistId");
+                String ArtistLogin = rs.getString("ArtistLogin");
+                String ArtistPass = rs.getString("ArtistPass");
+                String ArtistName = rs.getString("ArtistName");
+                String ArtistFirstName = rs.getString("ArtistFirstName");
+                String ArtistBirthdate = rs.getString("ArtistBirthdate");
+                String ArtistEmail = rs.getString("ArtistEmail");
+                String ArtistStageName = rs.getString("ArtistArtistName");
+                int ArtistPhone = rs.getInt("ArtistPhone");
+                
+                System.out.println("Welcome " + ArtistFirstName);
+                bean.setId(ArtistId);
+                bean.setLogin(ArtistLogin);
+                bean.setPass(ArtistPass);
+                bean.setName(ArtistName);
+                bean.setFirstName(ArtistFirstName);
+                bean.setBirthDate(ArtistBirthdate);
+                bean.setEmail(ArtistEmail);
+                bean.setPhone(ArtistPhone);
+                bean.setArtistName(ArtistStageName);
+                bean.setValid(true);
+            }
+        } catch (Exception ex) {
+            System.out.println("Log In failed: An Exception has occurred! " + ex);
+        } //some exception handling
+        finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (Exception e) {
+                }
+                rs = null;
+            }
+
+            if (stmt != null) {
+                try {
+                    stmt.close();
+                } catch (Exception e) {
+                }
+                stmt = null;
+            }
+
+            if (currentCon != null) {
+                try {
+                    currentCon.close();
+                } catch (Exception e) {
+                }
+
+                currentCon = null;
+            }
+        }
+
+        return bean;
+
     }
     private Connection getConnection() throws SQLException {
         return DriverManager.getConnection(url, user, password);

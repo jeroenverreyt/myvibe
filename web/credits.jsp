@@ -30,7 +30,9 @@
                         <li><a href="HomeServlet">Home</a></li>
                         <li><a href="OverzichtTracksperuserServlet">Mijn afspeellijst</a></li>
                         <li><a href="OverzichtTracks">Koop een nummer</a></li>
+                         <c:if test="${!empty(sessionScope.currentSessionArtist)}">
                         <li><a href="upload.jsp">Upload een nummer</a></li>
+                        </c:if>
                     </ul>
                 </nav>
             
@@ -38,7 +40,7 @@
             <p class="alert alert-success" ${mess.credits == null ? "style='display:none;'" : ""}>${mess.credits}</p> 
             <form action="CreditServlet" method="post" class="form-horizontal"> 
             
-        
+                
             <h6> Aantal credits: </h6>
             <p> ${currentSessionUser.credits} </p>  
             

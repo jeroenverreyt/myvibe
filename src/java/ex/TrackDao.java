@@ -6,6 +6,7 @@ package ex;
 
 import java.io.InputStream;
 import java.sql.Blob;
+import java.util.Date;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -13,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -26,7 +28,7 @@ public class TrackDao {
     private String password;
     private static final String GET_QUERY = "select TrackID, TrackName, TrackReleaseDate, TrackPrice, Artist_ArtistID from track";
     private static final String GETBYID_QUERY = "select TrackName, TrackReleaseDate, TrackPrice, Artist_ArtistID, TrackAudioFile from track where TrackID = ?";
-    private static final String ADD_QUERY = "INSERT INTO track (TrackName, TrackPrice, TrackAudioFile,Artist_ArtistID) values (?, ?, ?, 2)";
+    private static final String ADD_QUERY = "INSERT INTO track (TrackName, TrackReleaseDate, TrackType, TrackPrice, TrackAudioFile,Artist_ArtistID) values (?, ?, ?, ?, ?, 2)";
     private static final String GET_TOP10_UPLOADED = "SELECT TrackID, TrackName, TrackReleaseDate, TrackPrice, Artist_ArtistID FROM track order by TrackCounter desc LIMIT 10";
     private static final String GET_MOST_RECENT = "SELECT TrackID, TrackName, TrackReleaseDate, TrackPrice, Artist_ArtistID FROM track order by TrackReleaseDate desc Limit 10;";
     private static final String UPDATE_COUNTER = "UPDATE track SET TrackCounter = TrackCounter + 1 WHERE TrackID = ?;";
@@ -49,6 +51,30 @@ public class TrackDao {
         this.password = password;
     }
 
+    public List<TrackBean> getTracksPerArtist(int artistId, String sort) throws SQLException {
+        try (Connection con = getConnection(); // Java 7 !!!
+                Statement stmt = con.createStatement()) {
+            List<TrackBean> tracks = new ArrayList<TrackBean>();
+           
+            String get_query_artist = "select TrackID, TrackName, TrackReleaseDate, TrackPrice, Artist_ArtistID, TrackCounter from track where Artist_ArtistID = ? order by " + sort + " desc";
+            PreparedStatement statement = con.prepareStatement(get_query_artist);
+            statement.setInt(1, artistId);
+            ResultSet rs = statement.executeQuery();
+            System.out.println(statement);
+            while (rs.next()) {
+                TrackBean track = new TrackBean(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getInt(4),
+                        rs.getInt(5),
+                        rs.getInt(6));
+                tracks.add(track);
+            }
+            return tracks;
+        }
+
+    }
+
     public List<TrackBean> getTracks() throws SQLException {
         try (Connection con = getConnection(); // Java 7 !!!
                 Statement stmt = con.createStatement()) {
@@ -59,11 +85,13 @@ public class TrackDao {
                         rs.getString(2),
                         rs.getString(3),
                         rs.getInt(4),
-                        rs.getInt(5));
+                        rs.getInt(5)
+                );
                 tracks.add(track);
             }
             return tracks;
         }
+
     }
 
     public String getTrackName(int trackId) throws SQLException {
@@ -72,6 +100,7 @@ public class TrackDao {
             List<TrackBean> tracks = new ArrayList<TrackBean>();
             PreparedStatement statement = con.prepareStatement(GETBYID_QUERY);
             statement.setInt(1, trackId);
+
             ResultSet rs = statement.executeQuery();
             String trackname = "";
             while (rs.next()) {
@@ -81,14 +110,15 @@ public class TrackDao {
             return trackname;
         }
     }
-      public int getTrackArtistId(int trackId) throws SQLException {
+
+    public int getTrackArtistId(int trackId) throws SQLException {
         try (Connection con = getConnection(); // Java 7 !!!
                 Statement stmt = con.createStatement()) {
             List<TrackBean> tracks = new ArrayList<TrackBean>();
             PreparedStatement statement = con.prepareStatement(GETBYID_QUERY);
             statement.setInt(1, trackId);
             ResultSet rs = statement.executeQuery();
-            int artistId=0;
+            int artistId = 0;
             while (rs.next()) {
                 artistId = rs.getInt(4);
 
@@ -153,28 +183,6 @@ public class TrackDao {
         }
     }
 
-    public Boolean addTrack(String trackName, String trackPrice, InputStream inputStream) throws SQLException {
-        try (Connection con = getConnection(); // Java 7 !!!
-                ) {
-            Boolean success;
-            try {
-                PreparedStatement statement = con.prepareStatement(ADD_QUERY);
-                statement.setString(1, trackName);
-                statement.setString(2, trackPrice);
-
-                if (inputStream != null) {
-                    // fetches input stream of the upload file for the blob column
-                    statement.setBlob(3, inputStream);
-                }
-                statement.executeUpdate();
-                success = true;
-            } catch (SQLException ex) {
-                success = false;
-            }
-            return success;
-        }
-    }
-
     private Connection getConnection() throws SQLException {
         return DriverManager.getConnection(url, user, password);
     }
@@ -188,6 +196,30 @@ public class TrackDao {
                 statement.executeUpdate();
             } catch (SQLException ex) {
             }
+        }
+    }
+
+    Boolean addTrack(String trackName, String trackPrice, String trackReleaseDate, String trackType, String trackAudioFilePath) throws SQLException {
+        try (Connection con = getConnection(); // Java 7 !!!
+                ) {
+            Boolean success;
+            try {
+                //TrackName, TrackReleaseDate, TrackType, TrackPrice, TrackAudioFile
+                PreparedStatement statement = con.prepareStatement(ADD_QUERY);
+                statement.setString(1, trackName);
+                statement.setString(2, trackReleaseDate);
+                statement.setString(3, trackType);
+                statement.setString(4, trackPrice);
+                statement.setString(5, trackAudioFilePath);
+
+                System.out.println(statement);
+
+                statement.executeUpdate();
+                success = true;
+            } catch (SQLException ex) {
+                success = false;
+            }
+            return success;
         }
     }
 }
