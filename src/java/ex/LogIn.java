@@ -109,7 +109,7 @@ public class LogIn extends HttpServlet {
                 session.setAttribute("currentSessionArtist", artist);
                 session.removeAttribute("currentSessionUser");
                 session.setAttribute("loggedIn", true);
-                response.sendRedirect("upload.jsp");
+                response.sendRedirect("OverzichtTracksArtist");
                 
                 System.out.println("Logged in as artist!");
             } else {

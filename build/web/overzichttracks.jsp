@@ -54,6 +54,12 @@
                         <option value="3"${sort.sort == 3 ? "selected" : ""}>Track counter</option>
 
                     </select>
+                      <select name="sortdirection" id="formday" >
+                        <option value="10" ${sort.sortdirection == 10 ? "selected" : ""} >Aflopend</option>
+                        <option value="20"${sort.sortdirection == 20 ? "selected" : ""}>Oplopend</option>
+                        
+
+                    </select>
                     <input type="submit" value ="sorteer" name = "btnSort">
                 </form>
                

@@ -23,6 +23,7 @@ public class TracksperuserDao {
     private static final String GET_USER_TRACKS = "SELECT TrackID, UserID  FROM tracksperuser where UserID = ?;";
     private static final String GET_USER_TRACKS_RECENT = "SELECT TrackID, UserID  FROM tracksperuser where UserID = ? order by idtracksperuser desc limit 10";
     private static final String ADD_TRACK = "INSERT INTO tracksperuser (TrackID, UserID)  VALUES (?,?);";
+    private static final String CHECK_IF_EXISTS = "select count(TrackID) from tracksperuser where TrackID = ? AND UserId = ?;";
     private String url;
     private String user;
     private String password;
@@ -61,7 +62,7 @@ public class TracksperuserDao {
             return tracksperuser;
         }
     }
-    
+
     public List<TracksperuserBean> getTracks(int userId) throws SQLException {
         try (Connection con = getConnection(); // Java 7 !!!
                 Statement stmt = con.createStatement()) {
@@ -93,6 +94,25 @@ public class TracksperuserDao {
                 statement.executeUpdate();
             } catch (SQLException ex) {
             }
+        }
+    }
+
+    Boolean Exists(int trackid, int userid) throws SQLException {
+        try (Connection con = getConnection(); // Java 7 !!!
+                Statement stmt = con.createStatement()) {
+            PreparedStatement statement = con.prepareStatement(CHECK_IF_EXISTS);
+            statement.setInt(1, trackid);
+            statement.setInt(2, userid);
+            ResultSet rs = statement.executeQuery();
+            Boolean exists = false;
+            while (rs.next()) {
+                if (rs.getInt(1) == 0) {
+                    exists = true;
+                } else {
+                    exists = false;
+                }
+            }
+            return exists;
         }
     }
 }

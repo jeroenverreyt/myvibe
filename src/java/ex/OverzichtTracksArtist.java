@@ -65,9 +65,8 @@ public class OverzichtTracksArtist extends HttpServlet {
     }
 
     /**
-     * Processes requests for both HTTP
-     * <code>GET</code> and
-     * <code>POST</code> methods.
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
      *
      * @param request servlet request
      * @param response servlet response
@@ -82,31 +81,47 @@ public class OverzichtTracksArtist extends HttpServlet {
             ArtistBean currentArtist = (ArtistBean) session.getAttribute("currentSessionArtist");
             Map<String, String> howtosort = new HashMap<String, String>();
             String sort;
+            String sortdirection;
             sort = "TrackName";
+            sortdirection = "desc";
             String btnSort = request.getParameter("btnSort");
+
             int iSort = 1;
+            int iSortDirection = 10;
             if (btnSort != null) {
-            iSort = Integer.parseInt(request.getParameter("sorting"));
-            System.out.println("iSort: " + iSort);
+                iSort = Integer.parseInt(request.getParameter("sorting"));
+                iSortDirection = Integer.parseInt(request.getParameter("sortdirection"));
+                System.out.println("iSort: " + iSort);
             }
-           
-            switch(iSort){
+
+            switch (iSort) {
                 case 1:
                     sort = "TrackName";
                     howtosort.put("sort", "1");
                     break;
                 case 2:
                     sort = "TrackReleaseDate";
-                   howtosort.put("sort", "2");
+                    howtosort.put("sort", "2");
                     break;
                 case 3:
                     sort = "TrackCounter";
                     howtosort.put("sort", "3");
                     break;
             }
-           
+            switch (iSortDirection) {
+                case 10:
+                    sortdirection = "desc";
+                    howtosort.put("sortdirection", "10");
+                    break;
+                case 20:
+                    sortdirection = "";
+                    howtosort.put("sortdirection", "20");
+                    break;
+
+            }
+
             int currentId = currentArtist.getId();
-            List<TrackBean> tracksperartist = dao.getTracksPerArtist(currentId, sort);
+            List<TrackBean> tracksperartist = dao.getTracksPerArtist(currentId, sort, sortdirection);
             ArrayList tracks = new ArrayList();
             request.setAttribute("sort", howtosort);
             request.setAttribute("tracks", tracksperartist);
@@ -121,8 +136,7 @@ public class OverzichtTracksArtist extends HttpServlet {
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
-     * Handles the HTTP
-     * <code>GET</code> method.
+     * Handles the HTTP <code>GET</code> method.
      *
      * @param request servlet request
      * @param response servlet response
@@ -136,8 +150,7 @@ public class OverzichtTracksArtist extends HttpServlet {
     }
 
     /**
-     * Handles the HTTP
-     * <code>POST</code> method.
+     * Handles the HTTP <code>POST</code> method.
      *
      * @param request servlet request
      * @param response servlet response

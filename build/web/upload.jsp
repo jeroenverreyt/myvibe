@@ -17,6 +17,7 @@
         <link href="css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
         <link href="css/bootstrap-responsive.css" rel="stylesheet" media="screen">
         <link href="css/home.css" rel="stylesheet" media="screen">
+        <link href="css/inlog.css" rel="stylesheet" media="screen">
     </head>
     <body>
         <c:if test="${!empty(sessionScope.currentSessionUser)}">
@@ -36,29 +37,40 @@
             <div class="row" id="menu">
                 <nav role="navigation" class="navbar navbar-default">
                     <ul class="nav navbar-nav">
-                         <c:if test="${!empty(sessionScope.currentSessionUser)}">
-                        <li><a href="HomeServlet">Home</a></li>
-                        <li><a href="OverzichtTracksperuserServlet">Mijn afspeellijst</a></li>
-                        <li><a href="OverzichtTracks">Koop een nummer</a></li>
+                        <c:if test="${!empty(sessionScope.currentSessionUser)}">
+                            <li><a href="HomeServlet">Home</a></li>
+                            <li><a href="OverzichtTracksperuserServlet">Mijn afspeellijst</a></li>
+                            <li><a href="OverzichtTracks">Koop een nummer</a></li>
                         </c:if> 
                         <c:if test="${!empty(sessionScope.currentSessionArtist)}">
-                         <li><a href="OverzichtTracksArtist">Mijn tracks</a></li>
-                        <li class="active"><a href="#">Upload een nummer</a></li>
+                            <li><a href="OverzichtTracksArtist">Mijn tracks</a></li>
+                            <li class="active"><a href="#">Upload een nummer</a></li>
                         </c:if>
                     </ul>
                 </nav>
             </div>
 
-            <form method="post" action="uploadServlet" class="form-vertical" enctype="multipart/form-data">
-                <input type="text" class="input-xlarge" placeholder="Trackname" name="trackName"/>
+            <div class="row">
+                <div class="span6">
+                    <form method="post" action="uploadServlet" class="form-vertical" enctype="multipart/form-data">
+                        <input type="text" class="input-xlarge" placeholder="Trackname" name="trackName"/>
 
-                <input type="text" class="input-xlarge" placeholder="Price" name="trackPrice"/>
+                        <input type="text" class="input-xlarge" placeholder="Price" name="trackPrice"/>
+                        
+                        <input type="text" class="input-xlarge" placeholder="Genre" name="trackType"/>
 
-                <input type="file" class="input-xlarge" name="trackAudioFile"/>
+                        <br>
+                        
+                        <input type="file" class="input-xlarge" name="trackAudioFile"/>
 
-                <input type="submit" value="Upload">
-            </form>
-
+                        <br>
+                        
+                        <br>
+                        
+                        <input type="submit" value="Upload">
+                    </form>
+                </div>
+            </div>
         </div>
     </body>
 </html>

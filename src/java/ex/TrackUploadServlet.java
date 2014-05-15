@@ -78,57 +78,46 @@ public class TrackUploadServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
+        ServletContext sc = getServletContext();
+        String absolutePath = sc.getRealPath("");
+        String uploadPath = absolutePath.substring(0, absolutePath.length() - 9) + File.separator + "web/songs";
 
-        String fileName = "";
         String trackPrice = "";
         String trackName = "";
         String trackType = "";
+        String trackFileName = "";
 
-        // Check that we have a file upload request
-        boolean isMultipart = ServletFileUpload.isMultipartContent(request);
-        System.out.println(isMultipart);
+        //process only if its multipart content
+        if (ServletFileUpload.isMultipartContent(request)) {
+            try {
+                List<FileItem> multiparts = new ServletFileUpload(
+                        new DiskFileItemFactory()).parseRequest(request);
 
-        // Create a factory for disk-based file items
-        DiskFileItemFactory factory = new DiskFileItemFactory();
-
-        // Configure a repository (to ensure a secure temp location is used)
-        ServletContext servletContext = this.getServletConfig().getServletContext();
-        File repository = (File) servletContext.getAttribute("javax.servlet.context.tempdir");
-        factory.setRepository(repository);
-
-        // Create a new file upload handler
-        ServletFileUpload upload = new ServletFileUpload(factory);
-
-        // Parse the request
-        List<FileItem> items = null;
-        try {
-            items = upload.parseRequest(request);
-        } catch (FileUploadException ex) {
-            Logger.getLogger(TrackUploadServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        // Process the uploaded items
-        Iterator<FileItem> iter = items.iterator();
-        while (iter.hasNext()) {
-            FileItem item = iter.next();
-            if (item.isFormField()) {
-                // Process normal fields here.
-                if (item.getFieldName().equals("trackPrice")) {
-                    trackPrice = item.getString();
-                } else if (item.getFieldName().equals("trackName")) {
-                    trackName = item.getString();
-                } else if (item.getFieldName().equals("trackType")) {
-                    trackType = item.getString();
+                for (FileItem item : multiparts) {
+                    if (!item.isFormField()) {
+                        trackFileName = new File(item.getName()).getName();
+                        item.write(new File(uploadPath + File.separator + trackFileName));
+                    } else {
+                        if (item.getFieldName().equals("trackPrice")) {
+                            trackPrice = item.getString();
+                        } else if (item.getFieldName().equals("trackName")) {
+                            trackName = item.getString();
+                        } else if (item.getFieldName().equals("trackType")) {
+                            trackType = item.getString();
+                        }
+                    }
                 }
-            } else {
-                fileName = item.getName();
+                //File uploaded successfully
+                request.setAttribute("message", "File Uploaded Successfully");
+            } catch (Exception ex) {
+                request.setAttribute("message", "File Upload Failed due to " + ex);
             }
         }
-        
+
         Date date = new Date();
         SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
         String trackReleaseDate = DATE_FORMAT.format(date);
-        String trackAudioFilePath = "c:/songs/" + fileName;
+        String trackAudioFilePath = uploadPath + File.separator + trackFileName;
 
         System.out.println(trackAudioFilePath);
         System.out.println(trackName);
@@ -139,7 +128,7 @@ public class TrackUploadServlet extends HttpServlet {
         Boolean success = false;
 
         try {
-            success = dao.addTrack(trackName, trackPrice, trackReleaseDate, trackType, trackAudioFilePath);
+            success = dao.addTrack(trackName, trackPrice, trackReleaseDate, trackType, trackAudioFilePath, trackFileName);
         } catch (Exception ex) {
             Logger.getLogger(TrackUploadServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
